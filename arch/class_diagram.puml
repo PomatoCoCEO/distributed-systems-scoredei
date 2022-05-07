@@ -1,0 +1,41 @@
+@startuml
+class User {
+    int id
+    String username
+    String passwordHash
+    String telephone
+    String email
+    bool isAdmin 
+}
+class Player {
+    int id
+    String position
+    Date birthDate
+}
+class Team {
+    int id
+    String name
+    String imagePath
+}
+class Event {
+    int id
+    String type
+    Date timestamp
+} 
+class Game {
+    int id
+    String location
+    Date date
+    int goalsA
+    int goalsB
+}
+
+User "events" *-- "user" Event
+Game "events" --* "game" Event
+Player "events" o-* "player" Event
+Team "players" --* "team" Player
+Team  --* "teamA" Game
+Team "games" --* "teamB" Game
+
+
+@enduml
