@@ -34,8 +34,8 @@ User "events" *-- "user" Event
 Game "events" --* "game" Event
 Player "events" o-* "player" Event
 Team "players" --* "team" Player
-Team  --* "teamA" Game
-Team "games" --* "teamB" Game
+
+Team "2\n  games" --* "teams" Game
 
 
 @enduml
