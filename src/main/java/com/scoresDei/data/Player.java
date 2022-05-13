@@ -5,6 +5,7 @@ package com.scoresDei.data;
 import java.util.Date;
 import java.util.List;
 
+import javax.naming.Name;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,7 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private String name;
     private String position;
     private Date birthDate;
 
@@ -26,12 +28,12 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Event> events;
 
-    public int getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPosition() {

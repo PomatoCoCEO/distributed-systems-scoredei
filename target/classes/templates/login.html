@@ -1,3 +1,10 @@
-<form>
-    
-</form>
+<!DOCTYPE html>
+<html>
+    <form th:action="@{/login}" action="post">
+        <label for = "username" >Enter Username:</label>
+        <input name="username" required></input>
+        <label for = "passwd">Enter Password:</label>
+        <input name="passwd" type = "password" required></input>
+        <input type="submit" placeholder="Enter"></input>
+    </form>
+</html>

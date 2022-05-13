@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<script>
+    function onChange() {
+        let r = document.getElementById('enter_admin_code');
+        let d = r.hidden;
+        r.hidden = !d;
+    }
+
+
+
+
+</script>
+<form th:action="@{/register}" method="post">
+    <div>
+        <label for="username">Enter Username:</label>
+        <input name="username" required />
+        <br>
+    </div>
+    <div>
+        <label for="email">Enter E-mail:</label>
+        <input name="email" type="email" pattern=".+@.+\..+" multiple="false" />
+        <br>
+    </div>
+    <div>
+        <label for="telephone">Enter Phone Contact:</label>
+        <input name="telephone" pattern="\+?[0-9 ]+" />
+        <br>
+    </div>
+    <div>
+        <label for="password">Enter Password:</label>
+        <input name="password" type="password" />
+        <br>
+    </div>
+    <div id="choose_admin">
+        <label for="choose_is_admin">Are you admin?</label>
+        <input name="choose_is_admin" type="checkbox" onClick="onChange()"></input>
+        <br>
+    </div>
+    <div hidden="true" id="enter_admin_code">
+        <label for="adminCode">Enter admin code:</label>
+        <input name="adminCode"></input>
+        <br>
+    </div>
+    <input type="hidden" value="false" name="isAdmin" id="input_is_admin" />
+
+    <input type="submit" placeholder="Submit" />
+</form>
+
+</html>
