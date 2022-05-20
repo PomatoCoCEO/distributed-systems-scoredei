@@ -1,5 +1,6 @@
 package com.scoresDei.populate;
 
+import com.scoresDei.data.Team;
 import com.scoresDei.services.EventService;
 import com.scoresDei.services.GameService;
 import com.scoresDei.services.PlayerService;
@@ -15,26 +16,28 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PopulateDB {
     @Autowired
-    EventService eventService;
+    private EventService eventService;
     @Autowired
-    GameService gameService;
+    private GameService gameService;
     @Autowired
-    PlayerService playerService;
+    private PlayerService playerService;
     @Autowired
-    TeamService teamService;
+    private TeamService teamService;
     @Autowired
-    UserService userService;
+    private UserService userService;
     // this string is to be used in conjugation with the page number, which allows
     // 20 players to be retrieved at a time
     private static final String GET_PLAYER_STRING = "https://v3.football.api-sports.io/players";
     private static final String GET_LEAGUE_STRING = "https://v3.football.api-sports.io/leagues?season=2021&name=UEFA Champions League";
     private static final String GET_TEAM_STRING = "https://v3.football.api-sports.io/teams";
-    private static Dotenv dotenv = new Dotenv("src/main/java/com/scoresDei/.env");
+    private Dotenv dotenv = new Dotenv("src/main/java/com/scoresDei/.env");
 
-    private static void populateTeams() {
+    private void populateTeams() {
         // Format query for preventing encoding problems
         try {
             String charset = "UTF-8";
@@ -49,6 +52,16 @@ public class PopulateDB {
                     .asJson();
             System.out.println(
                     response.getBody());
+            var body = response.getBody().getObject();
+            var resp = body.getJSONArray("response");
+            for (int i = 0; i < resp.length(); i++) {
+                var team_info = resp.getJSONObject(i);
+                var team = team_info.getJSONObject("team");
+                String name = team.getString("name");
+                String photoPath = team.getString("logo");
+                Team t = new Team(name, photoPath);
+                teamService.add(t);
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (UnirestException e) {
@@ -56,7 +69,10 @@ public class PopulateDB {
         }
     }
 
-    public static void populateDB() {
+    public PopulateDB() {
+    }
+
+    public void populateDB() {
         populateTeams();
     }
 

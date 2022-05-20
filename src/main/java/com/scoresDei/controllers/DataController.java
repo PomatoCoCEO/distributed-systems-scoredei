@@ -1,5 +1,6 @@
 package com.scoresDei.controllers;
 
+import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.populate.PopulateDB;
@@ -28,9 +29,11 @@ public class DataController {
     TeamService teamService;
     @Autowired
     UserService userService;
+    @Autowired
+    PopulateDB populateDB;
 
     @GetMapping({ "/", "/index" })
-    public String indexx() {
+    public String index() {
         return "index";
     }
 
@@ -54,7 +57,9 @@ public class DataController {
 
     @GetMapping("/populate")
     public String populate() {
-        PopulateDB.populateDB();
+        Team team = new Team("Benfica", "path-to-image");
+        teamService.add(team);
+        populateDB.populateDB();
         return "populated";
     }
 }

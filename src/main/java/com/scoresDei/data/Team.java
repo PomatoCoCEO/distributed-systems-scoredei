@@ -1,5 +1,6 @@
 package com.scoresDei.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,13 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<Player> players;
+
+    public Team(String name, String imagePath) {
+        this.name=name;
+        this.imagePath=imagePath;
+        this.games = new ArrayList<>();
+        this.players = new ArrayList<>();
+    }
 
     public int getId() {
         return id;
