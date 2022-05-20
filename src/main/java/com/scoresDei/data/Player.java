@@ -1,5 +1,7 @@
 package com.scoresDei.data;
 
+import java.util.ArrayList;
+
 // import java.sql.Date;
 
 import java.util.Date;
@@ -27,6 +29,16 @@ public class Player {
 
     @OneToMany(mappedBy = "player")
     private List<Event> events;
+
+    
+
+    public Player(String name, String position, Date birthDate, Team team) {
+        this.name = name;
+        this.position = position;
+        this.birthDate = birthDate;
+        this.team = team;
+        this.events = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
