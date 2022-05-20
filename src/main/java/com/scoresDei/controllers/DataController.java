@@ -2,6 +2,11 @@ package com.scoresDei.controllers;
 
 import com.scoresDei.data.User;
 import com.scoresDei.dto.UserDTO;
+import com.scoresDei.populate.PopulateDB;
+import com.scoresDei.services.EventService;
+import com.scoresDei.services.GameService;
+import com.scoresDei.services.PlayerService;
+import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class DataController {
+    @Autowired
+    EventService eventService;
+    @Autowired
+    GameService gameService;
+    @Autowired
+    PlayerService playerService;
+    @Autowired
+    TeamService teamService;
     @Autowired
     UserService userService;
 
@@ -34,8 +47,14 @@ public class DataController {
 
     @PostMapping("/register")
     public String createUser(@ModelAttribute UserDTO u) {
-        System.out.println("User: "+u.toString());
+        System.out.println("User: " + u.toString());
         this.userService.addUser(u);
         return "index";
+    }
+
+    @GetMapping("/populate")
+    public String populate() {
+        PopulateDB.populateDB();
+        return "populated";
     }
 }
