@@ -21,6 +21,8 @@ public class Game {
     private Date date;
     private int goalsA;
     private int goalsB;
+    private boolean isOngoing;
+    private boolean isInterrupted;
     @ManyToOne
     private Team teamA;
     @ManyToOne
