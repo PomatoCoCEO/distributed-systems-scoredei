@@ -1,20 +1,43 @@
 package com.scoresDei.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.scoresDei.data.Team;
+import com.scoresDei.dto.TeamDTO;
 import com.scoresDei.repositories.TeamRepository;
+import com.scoresDei.utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
+    private static final String TEAM_IMAGE_PATH = "static/images/teams/";
+    private static final String RESOURCE_STRING = "src/main/resources/";
 
     public void add(Team t) {
         teamRepository.save(t);
+    }
+
+    public void addTeamWithPhoto(TeamDTO t, MultipartFile multipartFile) {
+        try {
+            Team tm = new Team(t.getName(), "");
+            Team aid = teamRepository.save(tm);
+            String[] spStr = multipartFile.getOriginalFilename().split("\\.");
+            System.out.println("Array of split: " + Arrays.toString(spStr));
+            FileUploadUtil.saveFile(RESOURCE_STRING + TEAM_IMAGE_PATH,
+                    String.valueOf(aid.getId()) + "." + spStr[spStr.length - 1],
+                    multipartFile);
+            aid.setImagePath(TEAM_IMAGE_PATH + aid.getId() + "." + spStr[spStr.length - 1]);
+            teamRepository.save(aid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Team findById(int id) {

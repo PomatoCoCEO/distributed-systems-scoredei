@@ -3,8 +3,10 @@ package com.scoresDei.services;
 import java.util.ArrayList;
 
 import com.scoresDei.data.Game;
+import com.scoresDei.data.Team;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.repositories.GameRepository;
+import com.scoresDei.repositories.TeamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class GameService {
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> ans = new ArrayList<>();
@@ -33,8 +38,11 @@ public class GameService {
     public void add(Game g) {
         gameRepository.save(g);
     }
+
     public void add(GameDTO gdto) {
-        Game g = new Game(gdto.getLocation(), gdto.getDate(), gdto.getTeamA(), gdto.getTeamB());
+        Team teamA = teamRepository.getTeamById(gdto.getTeamAId());
+        Team teamB = teamRepository.getTeamById(gdto.getTeamBId());
+        Game g = new Game(gdto.getLocation(), gdto.getDate(), teamA, teamB);
         gameRepository.save(g);
     }
 }

@@ -9,6 +9,7 @@ import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.dto.PlayerDTO;
+import com.scoresDei.dto.TeamDTO;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.populate.PopulateDB;
 import com.scoresDei.services.EventService;
@@ -78,7 +79,8 @@ public class DataController {
     }
 
     @GetMapping("/team_create")
-    public String createTeam() {
+    public String createTeam(Model m) {
+        m.addAttribute("team", new TeamDTO());
         return "team_create";
     }
 
@@ -95,16 +97,10 @@ public class DataController {
     }
 
     @PostMapping("/team_create")
-    public String createTeam(@ModelAttribute Team t, @RequestParam("team_image") MultipartFile multipartFile)
+    public String createTeam(@ModelAttribute TeamDTO t, @RequestParam("team_image") MultipartFile multipartFile)
             throws IOException {
-
-        String uploadDir = "static/images/teams/";
-
-        FileUploadUtil.saveFile(uploadDir, String.valueOf(t.getId()), multipartFile);
-        t.setImagePath(uploadDir + t.getId());
-        this.teamService.add(t);
-
-        return "index";
+        this.teamService.addTeamWithPhoto(t, multipartFile);
+        return "redirect:index";
     }
 
     @PostMapping("/player_create")
@@ -112,14 +108,14 @@ public class DataController {
         System.out.println("Player: " + p.toString());
 
         this.playerService.addPlayer(p);
-        return "index";
+        return "redirect:index";
     }
 
     @PostMapping("/game_create")
     public String createGame(@ModelAttribute GameDTO g) {
         System.out.println("Game: " + g.toString());
         this.gameService.add(g);
-        return "index";
+        return "redirect:index";
     }
 
 }

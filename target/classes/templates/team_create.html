@@ -2,7 +2,7 @@
 <html>
     <form th:action="@{/team_create}" th:object="${team}" method="post" enctype="multipart/form-data">
         <label for = "team_name">Team Name:</label>
-        <input name="team_name"></input>
+        <input name="team_name" th:field="*{name}"></input>
         <label for = "team_image">Image</label>
         <input name="team_image" type = "file" accept="image/png, image/jpeg"></input>
         <input type="submit" placeholder="Enter"></input>
