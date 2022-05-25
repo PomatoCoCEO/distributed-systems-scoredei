@@ -55,6 +55,10 @@ public class GameService {
             date = new GregorianCalendar(1980, 12, 12).getTime();
             e.printStackTrace();
         }
+        if(gdto.getTeamAId() == gdto.getTeamBId()){
+            // TODO: return some kind of error
+            return;
+        }
         Game g = new Game(gdto.getLocation(), date, teamRepository.getTeamById(gdto.getTeamAId()),
                 teamRepository.getTeamById(gdto.getTeamBId()));
         gameRepository.save(g);

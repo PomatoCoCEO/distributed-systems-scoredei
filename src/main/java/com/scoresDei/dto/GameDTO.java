@@ -80,4 +80,10 @@ public class GameDTO {
         this.goalsB = goalsB;
     }
 
+    @Override
+    public String toString() {
+        return "GameDTO [date=" + date + ", location=" + location + ", teamAId=" + teamAId + ", teamBId=" + teamBId
+                + "]";
+    }
+
 }
