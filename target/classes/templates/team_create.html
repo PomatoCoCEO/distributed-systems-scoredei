@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <form th:action="@{/team_create}" th:object="${team}" method="post" enctype="multipart/form-data">
-        <label for = "team_name">Team Name:</label>
-        <input name="team_name"></input>
-        <label for = "team_image">Image</label>
-        <input name="team_image" type = "file" accept="image/png, image/jpeg"></input>
-        <input type="submit" placeholder="Enter"></input>
-    </form>
+<form th:action="@{/team_create}" th:object="${teamObj}" method="post" enctype="multipart/form-data">
+    <label for="team_name">Team Name:</label>
+    <input name="team_name" th:field="*{name}"></input>
+    <br>
+    <label for="team_image">Image</label>
+    <input name="team_image" th:field="*{imagePath}" type="file" accept="image/png, image/jpeg"></input>
+    <br>
+    <input type="submit" placeholder="Enter"></input>
+</form>
+
 </html>

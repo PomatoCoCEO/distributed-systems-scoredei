@@ -48,6 +48,15 @@ public class Team {
         this.nDraws = 0;
     }
 
+    public Team(String name) {
+        this.name = name;
+        this.games = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.nWins = 0;
+        this.nLosses = 0;
+        this.nDraws = 0;
+    }
+
     public Team() {
     }
 
@@ -93,7 +102,7 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team ["+name+"]";
+        return "Team [" + name + "]";
     }
 
     public int getnWins() {

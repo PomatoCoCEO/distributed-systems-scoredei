@@ -9,6 +9,7 @@ import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.dto.PlayerDTO;
+import com.scoresDei.dto.TeamDTO;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.populate.PopulateDB;
 import com.scoresDei.services.EventService;
@@ -78,12 +79,16 @@ public class DataController {
     }
 
     @GetMapping("/team_create")
-    public String createTeam() {
+    public String createTeam(Model m) {
+        m.addAttribute("gameObj", new TeamDTO());
         return "team_create";
     }
 
     @GetMapping("/game_create")
-    public String createGame() {
+    public String createGame(Model m) {
+        m.addAttribute("gameObj", new GameDTO());
+        m.addAttribute("allTeams", teamService.getTeams());
+
         return "game_create";
     }
 
@@ -95,11 +100,11 @@ public class DataController {
     }
 
     @PostMapping("/team_create")
-    public String createTeam(@ModelAttribute Team t, @RequestParam("team_image") MultipartFile multipartFile)
+    public String createTeam(@ModelAttribute TeamDTO tdto, @RequestParam("team_image") MultipartFile multipartFile)
             throws IOException {
 
         String uploadDir = "static/images/teams/";
-
+        Team t = new Team(tdto.getName());
         FileUploadUtil.saveFile(uploadDir, String.valueOf(t.getId()), multipartFile);
         t.setImagePath(uploadDir + t.getId());
         this.teamService.add(t);
