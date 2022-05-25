@@ -62,4 +62,10 @@ public class DataController {
         populateDB.populateDB();
         return "populated";
     }
+
+    @GetMapping("/games")
+    public String games(Model m) {
+        m.addAttribute("games", gameService.getActiveGames());
+        return "active_games";
+    }
 }

@@ -1,5 +1,7 @@
 package com.scoresDei.services;
 
+import java.util.ArrayList;
+
 import com.scoresDei.data.Team;
 import com.scoresDei.repositories.TeamRepository;
 
@@ -15,7 +17,10 @@ public class TeamService {
         teamRepository.save(t);
     }
 
-    public Iterable<Team> getTeams() {
-        return teamRepository.findAll();
+    public ArrayList<Team> getTeams() {
+        ArrayList<Team> ans = new ArrayList<>();
+        for (var t : teamRepository.findAll())
+            ans.add(t);
+        return ans;
     }
 }

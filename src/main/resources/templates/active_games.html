@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div th:each="g : ${games}" >
+            <p style="display: inline-block">Team A: <div style="display: inline-block" th:text="${g.teamA.name}"></div> : <div style="display: inline-block" th:text="${g.goalsA}"></div></p>
+            <div th:text="${g.teamA.imagePath}"></div>
+            <img th:src="@{g.teamA.imagePath}"/>
+            <p style="display: inline-block">Team B: <div  style="display: inline-block" th:text="${g.teamB.name}"></div> : <div style="display: inline-block" th:text="${g.goalsB}"></div></p>
+            <img src="@{g.teamB.imagePath}"/>
+            <p>----------</p>
+        </div>
+    <body>
+</html>

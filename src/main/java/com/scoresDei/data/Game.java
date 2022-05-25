@@ -1,5 +1,6 @@
 package com.scoresDei.data;
 
+import java.util.ArrayList;
 import java.util.Date;
 // import java.sql.Date;
 import java.util.List;
@@ -30,6 +31,22 @@ public class Game {
 
     @OneToMany(mappedBy = "game")
     private List<Event> events;
+
+    public Game(String location, Date date, int goalsA, int goalsB, boolean isOngoing, boolean isInterrupted,
+            Team teamA, Team teamB) {
+        this.location = location;
+        this.date = date;
+        this.goalsA = goalsA;
+        this.goalsB = goalsB;
+        this.isOngoing = isOngoing;
+        this.isInterrupted = isInterrupted;
+        this.teamA = teamA;
+        this.teamB = teamB;
+        this.events = new ArrayList<>();
+    }
+
+    public Game() {
+    }
 
     public int getId() {
         return id;

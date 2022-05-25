@@ -14,6 +14,14 @@ public class GameService {
     private GameRepository gameRepository;
 
     public ArrayList<Game> getActiveGames() {
-        return gameRepository.getActiveGames();
+        ArrayList<Game> ans = new ArrayList<>();
+        for (var i : gameRepository.getActiveGames()) {
+            ans.add(i);
+        }
+        return ans;
+    }
+
+    public void add(Game g) {
+        gameRepository.save(g);
     }
 }

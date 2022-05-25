@@ -26,10 +26,13 @@ public class Team {
     private List<Player> players;
 
     public Team(String name, String imagePath) {
-        this.name=name;
-        this.imagePath=imagePath;
+        this.name = name;
+        this.imagePath = imagePath;
         this.games = new ArrayList<>();
         this.players = new ArrayList<>();
+    }
+
+    public Team() {
     }
 
     public int getId() {

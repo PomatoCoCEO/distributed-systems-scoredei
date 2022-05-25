@@ -1,5 +1,6 @@
 package com.scoresDei.populate;
 
+import com.scoresDei.data.Game;
 import com.scoresDei.data.Player;
 import com.scoresDei.data.Team;
 import com.scoresDei.services.EventService;
@@ -15,7 +16,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Random;
 import java.util.function.Consumer;
+import java.util.random.RandomGenerator;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -44,7 +48,8 @@ public class PopulateDB {
     private static final String GET_TEAM_STRING = "https://v3.football.api-sports.io/teams";
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
+    private static final int NO_ACTIVE_GAMES = 10;
+    private static final int NO_PAST_GAMES = 100;
     private Dotenv dotenv = new Dotenv("src/main/java/com/scoresDei/.env");
 
     private void populateTeams() {
@@ -140,12 +145,45 @@ public class PopulateDB {
         }
     }
 
+    private void populateGames() {
+        var teams = teamService.getTeams();
+        if (teams.size() < 2)
+            return; // otherwise it is impossible to make valid matches
+        Date d = new Date();
+        Date past = new GregorianCalendar(2021, 12, 12).getTime();
+        Random r = new Random();
+
+        for (int i = 0; i < NO_ACTIVE_GAMES; i++) {
+            int f = -1, g = -1;
+            while (f == g) {
+                f = r.nextInt(teams.size());
+                g = r.nextInt(teams.size());
+            }
+            int goalsA = r.nextInt(7);
+            int goalsB = r.nextInt(7);
+            Game game = new Game("Wembley", d, goalsA, goalsB, true, false, teams.get(f), teams.get(g));
+            gameService.add(game);
+        }
+        for (int i = 0; i < NO_PAST_GAMES; i++) {
+            int f = -1, g = -1;
+            while (f == g) {
+                f = r.nextInt(teams.size());
+                g = r.nextInt(teams.size());
+            }
+            int goalsA = r.nextInt(7);
+            int goalsB = r.nextInt(7);
+            Game game = new Game("Wembley", d, goalsA, goalsB, false, false, teams.get(f), teams.get(g));
+            gameService.add(game);
+        }
+    }
+
     public PopulateDB() {
     }
 
     public void populateDB() {
         populateTeams();
         populatePlayers();
+        populateGames();
     }
 
 }
