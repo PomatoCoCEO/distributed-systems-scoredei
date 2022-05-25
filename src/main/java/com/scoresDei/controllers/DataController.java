@@ -85,7 +85,10 @@ public class DataController {
     }
 
     @GetMapping("/game_create")
-    public String createGame() {
+    public String createGame(Model m) {
+        m.addAttribute("gameObj", new GameDTO());
+        m.addAttribute("allTeams", teamService.getTeams());
+
         return "game_create";
     }
 

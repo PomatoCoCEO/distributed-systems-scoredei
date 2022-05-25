@@ -16,7 +16,7 @@ import com.scoresDei.data.Team;
 public class GameDTO {
     private int id;
     private String location;
-    private Date date;
+    private String date;
     private int goalsA;
     private int goalsB;
 
@@ -26,6 +26,22 @@ public class GameDTO {
 
     public String getLocation() {
         return location;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getTeamBId() {
@@ -46,14 +62,6 @@ public class GameDTO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getGoalsA() {

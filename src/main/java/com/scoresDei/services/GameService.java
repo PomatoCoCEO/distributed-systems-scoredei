@@ -1,6 +1,10 @@
 package com.scoresDei.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import com.scoresDei.data.Game;
 import com.scoresDei.data.Team;
@@ -18,6 +22,8 @@ public class GameService {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> ans = new ArrayList<>();
@@ -40,9 +46,17 @@ public class GameService {
     }
 
     public void add(GameDTO gdto) {
-        Team teamA = teamRepository.getTeamById(gdto.getTeamAId());
-        Team teamB = teamRepository.getTeamById(gdto.getTeamBId());
-        Game g = new Game(gdto.getLocation(), gdto.getDate(), teamA, teamB);
+        Date date;
+        try {
+            date = DATE_FORMAT.parse(gdto.getDate());
+
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            date = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+        }
+        Game g = new Game(gdto.getLocation(), date, teamRepository.getTeamById(gdto.getTeamAId()),
+                teamRepository.getTeamById(gdto.getTeamBId()));
         gameRepository.save(g);
     }
 }

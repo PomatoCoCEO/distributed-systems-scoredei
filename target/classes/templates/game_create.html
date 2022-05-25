@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
-    <form th:action="@{/player_create}" action="post">
-        
-        <label for = "team">Team A:</label>
-        <form:select th:field="*{team}">
-            <form:option th:each="team : ${teams}" th:text="${team.name}" th:value = "${team}"></form:option>
-        </form:select>
-        <label for = "team">Team B:</label>
-        <form:select th:field="*{team}">
-            <form:option th:each="team : ${teams}" th:text="${team.name}" th:value = "${team}"></form:option>
-        </form:select>
-        
-        <label for = "location">Game location:</label>
-        <input name="location"></input>
-        
+<form th:action="@{/game_create}" method="post" th:object="${gameObj}">
 
-        <label for = "date">Date:</label>
-        <input name="date" type="date"></input>
-        <input type="submit" placeholder="Enter"></input>
-    </form>
+    <label for=" teamAId">Team A:</label>
+    <select th:field="*{teamAId}">
+        <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+    </select>
+    <br>
+    <label for="teamBId">Team B:</label>
+    <select th:field="*{teamBId}">
+        <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+    </select>
+    <br>
+
+    <label for="location">Game location:</label>
+    <input name="location" th:field="*{location}"></input>
+    <br>
+
+    <label for="date">Date:</label>
+    <input name="date" type="date" th:field="*{date}"></input>
+    <br>
+    <input type="submit" placeholder="Enter"></input>
+</form>
 
 </html>
