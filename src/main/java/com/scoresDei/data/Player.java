@@ -30,7 +30,19 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private List<Event> events;
 
-    
+    private int goalsScored;
+
+    public Player() {
+    }
+
+    public Player(String name, String position, Date birthDate, Team team, int goalsScored) {
+        this.name = name;
+        this.position = position;
+        this.birthDate = birthDate;
+        this.team = team;
+        this.events = new ArrayList<>();
+        this.goalsScored = goalsScored;
+    }
 
     public Player(String name, String position, Date birthDate, Team team) {
         this.name = name;
@@ -38,6 +50,7 @@ public class Player {
         this.birthDate = birthDate;
         this.team = team;
         this.events = new ArrayList<>();
+        this.goalsScored = 0;
     }
 
     public String getName() {
@@ -84,6 +97,14 @@ public class Player {
     public String toString() {
         return "Player [birthDate=" + birthDate + ", events=" + events + ", id=" + id + ", position=" + position
                 + ", team=" + team + "]";
+    }
+
+    public int getGoalsScored() {
+        return goalsScored;
+    }
+
+    public void setGoalsScored(int goalsScored) {
+        this.goalsScored = goalsScored;
     }
 
 }

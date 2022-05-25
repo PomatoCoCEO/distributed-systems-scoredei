@@ -24,6 +24,9 @@ public class User {
     @ManyToMany(mappedBy = "user")
     private List<Event> events;
 
+    public User() {
+    }
+
     public User(String username, String passwordHash, String telephone, String email, String isAdmin) {
         this.username = username;
         this.passwordHash = passwordHash;

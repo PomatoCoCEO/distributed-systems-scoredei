@@ -1,5 +1,7 @@
 package com.scoresDei.services;
 
+import java.util.ArrayList;
+
 import com.scoresDei.data.User;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.repositories.UserRepository;
@@ -8,11 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    public ArrayList<User> getAllUsers() {
+        var users = userRepository.findAll();
+        ArrayList<User> ans = new ArrayList<User>();
+        for(var u : users) ans.add(u);
+        return ans;
+    }
+
+    public void addUser(User u) {
+        userRepository.save(u);
+    }
+
+    public void addUsers(Iterable<User> users) {
+        userRepository.saveAll(users);
+    }
 
     private boolean checkEmail(String email) {
         return false;

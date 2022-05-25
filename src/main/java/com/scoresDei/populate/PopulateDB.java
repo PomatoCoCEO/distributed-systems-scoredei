@@ -3,6 +3,9 @@ package com.scoresDei.populate;
 import com.scoresDei.data.Game;
 import com.scoresDei.data.Player;
 import com.scoresDei.data.Team;
+import com.scoresDei.data.User;
+import com.scoresDei.data.Event.EventType;
+import com.scoresDei.data.Event;
 import com.scoresDei.services.EventService;
 import com.scoresDei.services.GameService;
 import com.scoresDei.services.PlayerService;
@@ -14,9 +17,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.random.RandomGenerator;
@@ -27,6 +32,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -68,6 +75,8 @@ public class PopulateDB {
             var body = response.getBody().getObject();
             var resp = body.getJSONArray("response");
             for (int i = 0; i < resp.length(); i++) {
+                if (i >= 20)
+                    break;
                 var team_info = resp.getJSONObject(i);
                 var team = team_info.getJSONObject("team");
                 String name = team.getString("name");
@@ -94,6 +103,8 @@ public class PopulateDB {
             ArrayList<Team> allTeams = new ArrayList<>();
             for (var t : allTeamsIterable)
                 allTeams.add(t);
+
+            int teamPos = 0;
             for (int i = 0; i < tot_pages; i++) {
                 HttpResponse<JsonNode> response = Unirest.get(GET_PLAYER_STRING + "?" + query + "&page=" + (i + 1))
                         .header("x-rapidapi-key", x_rapidapi_key)
@@ -131,10 +142,12 @@ public class PopulateDB {
                             birthDateString = "1970-1-1";
                         }
                         Date birthDate = DATE_FORMAT.parse(birthDateString);
-                        int random_pos = (int) Math.floor(Math.random() * allTeams.size());
-                        Team randomTeam = allTeams.get(random_pos);
-                        Player p = new Player(name, position, birthDate, randomTeam);
+                        Team playerTeam = allTeams.get(teamPos);
+                        Player p = new Player(name, position, birthDate, playerTeam);
                         playerService.addPlayer(p);
+                        playerTeam.getPlayers().add(p);
+                        teamService.updateTeam(playerTeam);
+                        teamPos = (teamPos + 1) % (allTeams.size());
                     } catch (ParseException pe) {
                         pe.printStackTrace();
                     }
@@ -177,6 +190,53 @@ public class PopulateDB {
         }
     }
 
+    private void populateUsers() {
+        PasswordEncoder pw = new BCryptPasswordEncoder();
+        User user1 = new User("user1", pw.encode("password1"), "123456789", "user1@gmail.com", null);
+        User user2 = new User("user2", pw.encode("password2"), "123456789", "user2@gmail.com", null);
+        User user3 = new User("user3", pw.encode("password3"), "123456789", "user3@gmail.com", null);
+        ArrayList<User> a = new ArrayList<User>(List.of(user1, user2, user3));
+        userService.addUsers(a);
+    }
+
+    private void populateEvents() {
+        var teams = teamService.getTeams();
+        for (var t : teams) {
+
+            System.out.println(t.getName() + " has " + t.getPlayers().size() + " players");
+        }
+        var games = gameService.getAllGames();
+        var users = userService.getAllUsers();
+        int noSeconds = 90 * 60;
+        for (var g : games) {
+            Event start = new Event(EventType.START, g.getDate(), users.get(1), g, null);
+            eventService.addEvent(start);
+
+            for (int i = 0; i < g.getGoalsA(); i++) {
+                Event goalA = new Event(EventType.GOAL,
+                        Date.from(g.getDate().toInstant()
+                                .plus(Duration.ofSeconds(noSeconds * (i / (g.getGoalsA() +
+                                        g.getGoalsB()))))),
+                        users.get(1), g, g.getTeamA().getPlayers().get(0));
+                eventService.addEvent(goalA);
+            }
+
+            for (int i = 0; i < g.getGoalsB(); i++) {
+                Event goalB = new Event(EventType.GOAL,
+                        Date.from(g.getDate().toInstant()
+                                .plus(Duration.ofSeconds(
+                                        noSeconds * ((i + g.getGoalsA()) / (g.getGoalsA() + g.getGoalsB()))))),
+                        users.get(1), g, g.getTeamB().getPlayers().get(0));
+                eventService.addEvent(goalB);
+            }
+            Event end = new Event(EventType.END, Date.from(g.getDate().toInstant()
+                    .plus(Duration.ofSeconds(
+                            noSeconds))),
+                    users.get(0), g, null);
+            eventService.addEvent(end);
+        }
+    }
+
     public PopulateDB() {
     }
 
@@ -184,6 +244,8 @@ public class PopulateDB {
         populateTeams();
         populatePlayers();
         populateGames();
+        populateUsers();
+        populateEvents();
     }
 
 }

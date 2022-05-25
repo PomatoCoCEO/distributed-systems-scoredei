@@ -18,6 +18,9 @@ public class Team {
     private int id;
     private String name;
     private String imagePath;
+    private int nWins;
+    private int nLosses;
+    private int nDraws;
 
     @OneToMany
     private List<Game> games;
@@ -25,11 +28,24 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Player> players;
 
+    public Team(String name, String imagePath, int nw, int nl, int nd) {
+        this.name = name;
+        this.imagePath = imagePath;
+        this.games = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.nWins = nw;
+        this.nLosses = nl;
+        this.nDraws = nd;
+    }
+
     public Team(String name, String imagePath) {
         this.name = name;
         this.imagePath = imagePath;
         this.games = new ArrayList<>();
         this.players = new ArrayList<>();
+        this.nWins = 0;
+        this.nLosses = 0;
+        this.nDraws = 0;
     }
 
     public Team() {
@@ -79,6 +95,30 @@ public class Team {
     public String toString() {
         return "Team [games=" + games + ", id=" + id + ", imagePath=" + imagePath + ", name=" + name + ", players="
                 + players + "]";
+    }
+
+    public int getnWins() {
+        return nWins;
+    }
+
+    public void setnWins(int nWins) {
+        this.nWins = nWins;
+    }
+
+    public int getnLosses() {
+        return nLosses;
+    }
+
+    public void setnLosses(int nLosses) {
+        this.nLosses = nLosses;
+    }
+
+    public int getnDraws() {
+        return nDraws;
+    }
+
+    public void setnDraws(int nDraws) {
+        this.nDraws = nDraws;
     }
 
 }
