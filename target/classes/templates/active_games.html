@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <meta http-equiv="refresh" content="20">
+        <!-- refreshes content every 20 seconds -->
+      </head>
     <body>
         <div th:each="g : ${games}" >
-            <p style="display: inline-block">Team A: <div style="display: inline-block" th:text="${g.teamA.name}"></div> : <div style="display: inline-block" th:text="${g.goalsA}"></div></p>
-            <div th:text="${g.teamA.imagePath}"></div>
+            <div th:text="'Game occurring in '+${g.location}"></div>
+            <p style="display: inline-block"><div style="display: inline-block" th:text="${g.teamA.name}"></div> : <div style="display: inline-block" th:text="${g.goalsA}"></div></p>
             <img th:src="${g.teamA.imagePath}"/>
-            <p style="display: inline-block">Team B: <div  style="display: inline-block" th:text="${g.teamB.name}"></div> : <div style="display: inline-block" th:text="${g.goalsB}"></div></p>
+            <p><div  style="display: inline-block" th:text="${g.teamB.name}"></div> : <div style="display: inline-block" th:text="${g.goalsB}"></div></p>
             <img th:src="${g.teamB.imagePath}"/>
+            <p>Click <a>here </a> to see the game events.</p>
             <p>----------</p>
         </div>
     <body>
