@@ -13,7 +13,10 @@ import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
 import com.scoresDei.utils.Dotenv;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +28,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.random.RandomGenerator;
+
+import javax.imageio.ImageIO;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
@@ -83,6 +90,22 @@ public class PopulateDB {
                 String photoPath = team.getString("logo");
                 Team t = new Team(name, photoPath);
                 teamService.add(t);
+                try {
+                    System.out.println("photopath: " + photoPath);
+                    var url = new URL(photoPath);
+                    String[] fmtSp = photoPath.split("\\.");
+                    System.out.println("split length: " + fmtSp.length);
+                    String format = fmtSp[fmtSp.length - 1];
+
+                    BufferedImage im = ImageIO.read(url);
+
+                    ImageIO.write(im, format,
+                            new File("src/main/resources/static/images/teams/" + t.getId() + "." + format));
+                    t.setImagePath("images/teams/" + t.getId() + "." + format);
+                    teamService.updateTeam(t);
+                } catch (IOException io) {
+                    io.printStackTrace();
+                }
             }
         } catch (UnirestException e) {
             e.printStackTrace();

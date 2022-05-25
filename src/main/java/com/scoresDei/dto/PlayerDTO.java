@@ -12,24 +12,39 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.scoresDei.data.Team;
+
 public class PlayerDTO {
 
+
+    private String name;
     private String position;
     private Date birthDate;
-    private String teamName;
+    private Team team;
+
+
+    public String getName() {
+		return name;
+	}
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
 
     public String getPosition() {
         return position;
     }
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
+    
     public void setPosition(String position) {
         this.position = position;
     }

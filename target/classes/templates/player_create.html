@@ -1,9 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <form action="post">
-        <label for = "team_name">Team Name:</label>
-        <input name="team_name"></input>
-        <label for = "team_image">Image</label>
-        <input name="team_image" type = "file"></input>
+    <form th:action="@{/player_create}" action="post">
+        <label for = "player_name">Player Name:</label>
+        <input name="player_name"></input>
+        <form:select th:field="*{position}">
+            <form:option th:value="'Defender'" th:text="Defender"></form:option>
+            <form:option th:value="'Midfielder'" th:text="Midfielder"></form:option>
+            <form:option th:value="'Forward'" th:text="Forward"></form:option>
+            <form:option th:value="'Goalkeeper'" th:text="Goalkeeper"></form:option>
+        </form:select>
+        <label for = "birthDate">Birth Date:</label>
+        <input name="birthDate" type="date"></input>
+        <label for = "team">Team:</label>
+        <form:select th:field="*{team}">
+            <form:option th:each="team : ${teams}" th:text="${team.name}" th:value = "${team}"></form:option>
+        </form:select>
+        <input type="submit" placeholder="Enter"></input>
     </form>
 </html>

@@ -1,7 +1,10 @@
 package com.scoresDei.controllers;
 
+import java.io.IOException;
+
 import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
+import com.scoresDei.dto.PlayerDTO;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.populate.PopulateDB;
 import com.scoresDei.services.EventService;
@@ -9,11 +12,14 @@ import com.scoresDei.services.GameService;
 import com.scoresDei.services.PlayerService;
 import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
+import com.scoresDei.utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -57,8 +63,6 @@ public class DataController {
 
     @GetMapping("/populate")
     public String populate() {
-        Team team = new Team("Benfica", "path-to-image");
-        teamService.add(team);
         populateDB.populateDB();
         return "populated";
     }
@@ -68,4 +72,40 @@ public class DataController {
         m.addAttribute("games", gameService.getActiveGames());
         return "active_games";
     }
+
+    @GetMapping("/team_create")
+    public String createTeam() {
+        return "team_create";
+    }
+
+    @GetMapping("/game_create")
+    public String createGame() {
+        return "game_create";
+    }
+
+    @GetMapping("/player_create")
+    public String createPlayer() {
+        return "player_create";
+    }
+
+    @PostMapping("/team_create")
+    public String createTeam(@ModelAttribute Team t, @RequestParam("team_image") MultipartFile multipartFile) throws IOException {
+
+        String uploadDir = "static/images/teams/";
+
+        FileUploadUtil.saveFile(uploadDir, String.valueOf(t.getId()), multipartFile);
+        t.setImagePath(uploadDir + t.getId());
+
+        return "index";
+    }
+
+
+    @PostMapping("/player_create")
+    public String createPlayer(@ModelAttribute PlayerDTO p) {
+        System.out.println("Player: " + p.toString());
+        this.playerService.addPlayer(p);
+        return "players";
+    }
+
+
 }
