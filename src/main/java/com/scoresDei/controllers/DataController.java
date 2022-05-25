@@ -80,7 +80,7 @@ public class DataController {
 
     @GetMapping("/team_create")
     public String createTeam(Model m) {
-        m.addAttribute("gameObj", new TeamDTO());
+        m.addAttribute("teamObj", new TeamDTO());
         return "team_create";
     }
 
