@@ -45,6 +45,18 @@ public class Game {
         this.events = new ArrayList<>();
     }
 
+    public Game(String location, Date date, Team teamA, Team teamB) {
+        this.location = location;
+        this.date = date;
+        this.goalsA = 0;
+        this.goalsB = 0;
+        this.isOngoing = false;
+        this.isInterrupted = false;
+        this.teamA = teamA;
+        this.teamB = teamB;
+        this.events = new ArrayList<>();
+    }
+
     public Game() {
     }
 
@@ -114,7 +126,7 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Game [date=" + date + ", events=" + events + ", goalsA=" + goalsA + ", goalsB=" + goalsB + ", id=" + id
+        return "Game [date=" + date + ", goalsA=" + goalsA + ", goalsB=" + goalsB + ", id=" + id
                 + ", location=" + location + ", teamA=" + teamA + ", teamB=" + teamB + "]";
     }
 

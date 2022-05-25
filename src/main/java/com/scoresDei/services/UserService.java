@@ -34,10 +34,6 @@ public class UserService {
         userRepository.saveAll(users);
     }
 
-    private boolean checkEmail(String email) {
-        return false;
-    }
-
     public void addUser(UserDTO u) {
 
         System.out.println(u);

@@ -11,17 +11,37 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.scoresDei.data.Team;
+
 public class GameDTO {
     private int id;
     private String location;
     private Date date;
     private int goalsA;
     private int goalsB;
-    private String teamA;
-    private String teamB;
+
+    // ! use teamDTO ?
+    private int teamAId;
+    private int teamBId;
 
     public String getLocation() {
         return location;
+    }
+
+    public int getTeamBId() {
+        return teamBId;
+    }
+
+    public void setTeamBId(int teamBId) {
+        this.teamBId = teamBId;
+    }
+
+    public int getTeamAId() {
+        return teamAId;
+    }
+
+    public void setTeamAId(int teamAId) {
+        this.teamAId = teamAId;
     }
 
     public void setLocation(String location) {
@@ -50,22 +70,6 @@ public class GameDTO {
 
     public void setGoalsB(int goalsB) {
         this.goalsB = goalsB;
-    }
-
-    public String getTeamA() {
-        return teamA;
-    }
-
-    public void setTeamA(String teamA) {
-        this.teamA = teamA;
-    }
-
-    public String getTeamB() {
-        return teamB;
-    }
-
-    public void setTeamB(String teamB) {
-        this.teamB = teamB;
     }
 
 }

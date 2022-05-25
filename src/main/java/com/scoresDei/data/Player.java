@@ -95,8 +95,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player [birthDate=" + birthDate + ", events=" + events + ", id=" + id + ", position=" + position
-                + ", team=" + team + "]";
+        return "Player ["+ name + ", position=" + position + ", team=" + team + "]";
     }
 
     public int getGoalsScored() {

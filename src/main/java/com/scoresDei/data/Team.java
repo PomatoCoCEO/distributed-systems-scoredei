@@ -93,8 +93,7 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team [games=" + games + ", id=" + id + ", imagePath=" + imagePath + ", name=" + name + ", players="
-                + players + "]";
+        return "Team ["+name+"]";
     }
 
     public int getnWins() {

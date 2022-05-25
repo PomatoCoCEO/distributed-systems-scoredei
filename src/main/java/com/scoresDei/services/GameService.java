@@ -3,6 +3,7 @@ package com.scoresDei.services;
 import java.util.ArrayList;
 
 import com.scoresDei.data.Game;
+import com.scoresDei.dto.GameDTO;
 import com.scoresDei.repositories.GameRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class GameService {
     }
 
     public void add(Game g) {
+        gameRepository.save(g);
+    }
+    public void add(GameDTO gdto) {
+        Game g = new Game(gdto.getLocation(), gdto.getDate(), gdto.getTeamA(), gdto.getTeamB());
         gameRepository.save(g);
     }
 }

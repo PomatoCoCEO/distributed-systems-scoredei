@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <form th:action="@{/player_create}" action="post">
-        <label for = "player_name">Player Name:</label>
-        <input name="player_name"></input>
-        <form:select th:field="*{position}">
-            <form:option th:value="'Defender'" th:text="Defender"></form:option>
-            <form:option th:value="'Midfielder'" th:text="Midfielder"></form:option>
-            <form:option th:value="'Forward'" th:text="Forward"></form:option>
-            <form:option th:value="'Goalkeeper'" th:text="Goalkeeper"></form:option>
-        </form:select>
+    <form th:action="@{/player_create}" method="post" th:object="${playerObj}">
+        <label for = "name">Player Name:</label>
+        <input name="name" th:field="*{name}"></input>
+        <br >
+        <select th:field="*{position}">
+            <option th:value="'Defender'" th:text="Defender"></form:option>
+            <option th:value="'Midfielder'" th:text="Midfielder"></form:option>
+            <option th:value="'Forward'" th:text="Forward"></form:option>
+            <option th:value="'Goalkeeper'" th:text="Goalkeeper"></form:option>
+        </select>
+        <br >
         <label for = "birthDate">Birth Date:</label>
-        <input name="birthDate" type="date"></input>
-        <label for = "team">Team:</label>
-        <form:select th:field="*{team}">
-            <form:option th:each="team : ${teams}" th:text="${team.name}" th:value = "${team}"></form:option>
-        </form:select>
+        <input name="birthDate" type="date" th:field="*{birthDate}"></input>
+        <br >
+        <label for = "teamId">Team:</label>
+        <select th:field="*{teamId}">
+            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value = "${t.id}"></option>
+        </select>
         <input type="submit" placeholder="Enter"></input>
     </form>
 </html>
