@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.scoresDei.data.Game;
+import com.scoresDei.data.Player;
 import com.scoresDei.data.Team;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.repositories.GameRepository;
@@ -85,5 +86,9 @@ public class GameService {
         Game g = new Game(gdto.getLocation(), date, teamRepository.getTeamById(gdto.getTeamAId()),
                 teamRepository.getTeamById(gdto.getTeamBId()));
         gameRepository.save(g);
+    }
+
+    public boolean isExpelled(Game g, Player p) {
+        return gameRepository.redCards(g, p) >=1 || gameRepository.yellowCards(g, p) > 2;
     }
 }

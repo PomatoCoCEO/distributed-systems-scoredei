@@ -42,8 +42,6 @@ public class DataController {
     TeamService teamService;
     @Autowired
     UserService userService;
-    @Autowired
-    PopulateDB populateDB;
 
     @GetMapping({ "/", "/index" })
     public String index() {
@@ -55,24 +53,9 @@ public class DataController {
         return "login";
     }
 
-    @GetMapping("/register")
-    public String register() {
-        System.out.println("Got a register request");
-        return "user_register";
-    }
 
-    @PostMapping("/register")
-    public String createUser(@ModelAttribute UserDTO u) {
-        System.out.println("User: " + u.toString());
-        this.userService.addUser(u);
-        return "index";
-    }
 
-    @GetMapping("/populate")
-    public String populate() {
-        populateDB.populateDB();
-        return "populated";
-    }
+
 
     @GetMapping("/game_details")
     public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
@@ -99,24 +82,22 @@ public class DataController {
         return "past_games";
     }
 
+    @GetMapping("/team_details")
+    public String teamDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+        m.addAttribute("team", teamService.findById(id));
+        return "team_details";
+    }
+
+     @GetMapping("/player_details")
+    public String playerDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+        m.addAttribute("player", playerService.getPlayerById(id));
+        return "player_details";
+    }
+
     @GetMapping("/teams")
     public String teams(Model m) {
-        m.addAttribute("teams", teamService.getTeams());
+        m.addAttribute("teams", teamService.getSortedTeams());
         return "teams";
-    }
-
-    @GetMapping("/team_create")
-    public String createTeam(Model m) {
-        m.addAttribute("team", new TeamDTO());
-        return "team_create";
-    }
-
-    @GetMapping("/game_create")
-    public String createGame(Model m) {
-        m.addAttribute("gameObj", new GameDTO());
-        m.addAttribute("allTeams", teamService.getTeams());
-
-        return "game_create";
     }
 
     @GetMapping("/event_register")
@@ -129,34 +110,9 @@ public class DataController {
         return "event_register";
     }
 
-    @GetMapping("/player_create")
-    public String createPlayer(Model m) {
-        m.addAttribute("playerObj", new PlayerDTO());
-        m.addAttribute("allTeams", teamService.getTeams());
-        return "player_create";
-    }
 
-    @PostMapping("/team_create")
-    public String createTeam(@ModelAttribute TeamDTO t, @RequestParam("team_image") MultipartFile multipartFile)
-            throws IOException {
-        this.teamService.addTeamWithPhoto(t, multipartFile);
-        return "redirect:index";
-    }
 
-    @PostMapping("/player_create")
-    public String createPlayer(@ModelAttribute PlayerDTO p) {
-        System.out.println("Player: " + p.toString());
 
-        this.playerService.addPlayer(p);
-        return "redirect:index";
-    }
-
-    @PostMapping("/game_create")
-    public String createGame(@ModelAttribute GameDTO g) {
-        System.out.println("Game: " + g.toString());
-        this.gameService.add(g);
-        return "redirect:index";
-    }
 
     @PostMapping("/event_register")
     public String registerEvent(@ModelAttribute EventDTO e) {

@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Team {
+public class Team implements Comparable<Team> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -127,6 +127,16 @@ public class Team {
 
     public void setnDraws(int nDraws) {
         this.nDraws = nDraws;
+    }
+
+    @Override
+    public int compareTo(Team t) {
+        if ((this.nWins * 3 + this.nDraws) > (t.nWins * 3 + t.nDraws))
+            return -1;
+        else if ((this.nWins * 3 + this.nDraws) < (t.nWins * 3 + t.nDraws))
+            return 1;
+        else
+            return 0;
     }
 
 }

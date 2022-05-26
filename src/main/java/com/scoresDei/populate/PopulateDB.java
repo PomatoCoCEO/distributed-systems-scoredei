@@ -252,11 +252,13 @@ public class PopulateDB {
                         users.get(1), g, g.getTeamB().getPlayers().get(0));
                 eventService.addEvent(goalB);
             }
-            Event end = new Event(EventType.END, Date.from(g.getDate().toInstant()
-                    .plus(Duration.ofSeconds(
-                            noSeconds))),
-                    users.get(0), g, null);
-            eventService.addEvent(end);
+            if (!g.isOngoing()) {
+                Event end = new Event(EventType.END, Date.from(g.getDate().toInstant()
+                        .plus(Duration.ofSeconds(
+                                noSeconds))),
+                        users.get(0), g, null);
+                eventService.addEvent(end);
+            }
         }
     }
 
@@ -283,11 +285,11 @@ public class PopulateDB {
     }
 
     public void populateDB() {
-        // populateTeams();
-        // populatePlayers();
-        // populateGames();
-        // populateUsers();
-        // populateEvents();
+        populateTeams();
+        populatePlayers();
+        populateGames();
+        populateUsers();
+        populateEvents();
         populateResults();
         populateGoals();
     }

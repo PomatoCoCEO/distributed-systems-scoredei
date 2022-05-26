@@ -15,14 +15,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
     public ArrayList<User> getAllUsers() {
         var users = userRepository.findAll();
         ArrayList<User> ans = new ArrayList<User>();
-        for(var u : users) ans.add(u);
+        for (var u : users)
+            ans.add(u);
         return ans;
     }
 
@@ -66,6 +67,12 @@ public class UserService {
         User newUser = new User(u.getUsername(), pwHashed, u.getTelephone(), u.getEmail(), u.getAdminCode());
 
         userRepository.save(newUser);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findUserByUsername(username);
+        return user;
     }
 
 }

@@ -59,4 +59,9 @@ public class PlayerService {
         return playerRepository.loadGoals(p);
     }
 
+    public Player getPlayerById(int id) {
+        return playerRepository.findById(id).get();
+    }
+
+
 }

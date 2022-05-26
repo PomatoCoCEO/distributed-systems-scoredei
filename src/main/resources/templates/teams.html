@@ -7,7 +7,9 @@
     <body>
         <h1> Teams</h1>
         <div th:each="t : ${teams}" >
-            
+            <p style="display: inline-block"><div style="display: inline-block" th:text="${t.name}"></div> : <div th:text="'Wins: ' +${t.nWins}+ ',Draws: ' +${t.nDraws} +',Losses: ' +${t.nLosses}"> </div>  </p>
+            <img th:src="${t.imagePath}"/>
+            <a th:href="@{/team_details(id=${t.id})}"> Details </a>
             <p>----------</p>
         </div>
     <body>

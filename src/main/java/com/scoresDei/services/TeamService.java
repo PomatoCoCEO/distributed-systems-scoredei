@@ -3,6 +3,7 @@ package com.scoresDei.services;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import com.scoresDei.data.Team;
 import com.scoresDei.dto.TeamDTO;
@@ -55,6 +56,16 @@ public class TeamService {
             ans.add(t);
         return ans;
     }
+
+    public ArrayList<Team> getSortedTeams() {
+        ArrayList<Team> ans = new ArrayList<>();
+        for (var t : teamRepository.findAll())
+            ans.add(t);
+
+        Collections.sort(ans);
+        return ans;
+    }
+
 
     public int getTotalGames(Team t) {
         return t.getnDraws() + t.getnWins() + t.getnLosses();

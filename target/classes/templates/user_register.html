@@ -19,21 +19,21 @@
     </div>
     <div>
         <label for="email">Enter E-mail:</label>
-        <input name="email" type="email" pattern=".+@.+\..+" multiple="false" />
+        <input name="email" type="email" pattern=".+@.+\..+" multiple="false" required />
         <br>
     </div>
     <div>
         <label for="telephone">Enter Phone Contact:</label>
-        <input name="telephone" pattern="\+?[0-9 ]+" />
+        <input name="telephone" pattern="\+?[0-9 ]+" required/>
         <br>
     </div>
     <div>
         <label for="password">Enter Password:</label>
-        <input name="password" type="password" />
+        <input name="password" type="password" required/>
         <br>
     </div>
     <div id="choose_admin">
-        <label for="choose_is_admin">Are you admin?</label>
+        <label for="choose_is_admin">Is the user admin?</label>
         <input name="choose_is_admin" type="checkbox" onClick="onChange()"></input>
         <br>
     </div>

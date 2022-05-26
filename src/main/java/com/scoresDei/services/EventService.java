@@ -10,6 +10,7 @@ import com.scoresDei.dto.EventDTO;
 import com.scoresDei.repositories.EventRepository;
 import com.scoresDei.repositories.GameRepository;
 import com.scoresDei.repositories.PlayerRepository;
+import com.scoresDei.repositories.TeamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,9 @@ public class EventService {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     public void addEvent(Event e) {
         eventRepository.save(e);
@@ -82,6 +86,11 @@ public class EventService {
             return;
         }
         if (aidType == EventType.RESUME && !g.isInterrupted()) {
+            // TODO: throw exception: player already expelled
+            return;
+        }
+        if (p != null && (gameRepository.yellowCards(g, p) >= 2 || gameRepository.redCards(g, p) >= 1)) {
+            // TODO: throw exception: player already expelled
             return;
         }
         switch (aidType) {
@@ -92,13 +101,35 @@ public class EventService {
                 break;
             case END:
                 g.setOngoing(false);
+                if (g.getGoalsA() > g.getGoalsB()) {
+                    g.getTeamA().setnWins(g.getTeamA().getnWins() + 1);
+                    g.getTeamB().setnLosses(g.getTeamB().getnLosses() + 1);
+                } else if (g.getGoalsA() < g.getGoalsB()) {
+                    g.getTeamB().setnWins(g.getTeamB().getnWins() + 1);
+                    g.getTeamA().setnLosses(g.getTeamA().getnLosses() + 1);
+                } else {
+                    g.getTeamA().setnDraws(g.getTeamA().getnDraws() + 1);
+                    g.getTeamB().setnDraws(g.getTeamB().getnDraws() + 1);
+                }
+                teamRepository.save(g.getTeamA());
+                teamRepository.save(g.getTeamB());
                 gameRepository.save(g);
                 break;
             case GOAL:
-
+                if (p.getTeam().getId() == g.getTeamA().getId()) {
+                    g.setGoalsA(g.getGoalsA() + 1);
+                } else {
+                    g.setGoalsB(g.getGoalsB() + 1);
+                }
+                gameRepository.save(g);
                 break;
             case OWN_GOAL:
-
+                if (p.getTeam().getId() == g.getTeamA().getId()) {
+                    g.setGoalsB(g.getGoalsB() + 1);
+                } else {
+                    g.setGoalsA(g.getGoalsA() + 1);
+                }
+                gameRepository.save(g);
                 break;
             case YELLOW_CARD:
 

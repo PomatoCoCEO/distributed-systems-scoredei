@@ -14,6 +14,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     public boolean existsUserByTelephone(String telephone);
 
     @Query("select u from User u where u.username=?1")
-    public User getUserByUsername(String username);
+    public User findUserByUsername(String username);
 
 }
