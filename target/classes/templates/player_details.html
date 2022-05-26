@@ -12,8 +12,7 @@
 
         
         <div >
-            <p style="display: inline-block"><div style="display: inline-block" th:text="${p}"></div>  <a th:href="@{/team_details(id=${t.id})}"> Details </a>  </p>
-            <p th:text="'Number of '${}"> </p>
-
+            <p th:text="'Number of goals scored: '+${player.goalsScored}"> </p>
+        </div>
     <body>
 </html>

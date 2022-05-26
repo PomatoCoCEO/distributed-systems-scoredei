@@ -63,5 +63,9 @@ public class PlayerService {
         return playerRepository.findById(id).get();
     }
 
+    public Player getBestScorer(){
+        Player bestScorer = playerRepository.bestScorer();
+        return bestScorer;
+    }
 
 }

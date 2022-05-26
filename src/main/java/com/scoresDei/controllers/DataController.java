@@ -20,8 +20,12 @@ import com.scoresDei.services.PlayerService;
 import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
 import com.scoresDei.utils.FileUploadUtil;
+import com.scoresDei.utils.JwtProcessing;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +46,8 @@ public class DataController {
     TeamService teamService;
     @Autowired
     UserService userService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GetMapping({ "/", "/index" })
     public String index() {
@@ -53,9 +59,20 @@ public class DataController {
         return "login";
     }
 
+    @PostMapping("/login")
+    public String loginPost(@RequestParam UserDTO userdto) {
+        try {
 
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userdto.getUsername(), userdto.getPassword()));
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+        final UserDetails userDetails = userService.loadUserByUsername(userdto.getUsername());
+        final String jwt = JwtProcessing.getJwtToken(userDetails);
 
-
+        return "login";
+    }
 
     @GetMapping("/game_details")
     public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
@@ -88,9 +105,15 @@ public class DataController {
         return "team_details";
     }
 
-     @GetMapping("/player_details")
+    @GetMapping("/player_details")
     public String playerDetails(@RequestParam(name = "id", required = true) int id, Model m) {
         m.addAttribute("player", playerService.getPlayerById(id));
+        return "player_details";
+    }
+
+    @GetMapping("/best_scorer")
+    public String BestScorer(Model m) {
+        m.addAttribute("player", playerService.getBestScorer());
         return "player_details";
     }
 
@@ -109,10 +132,6 @@ public class DataController {
         m.addAttribute("game", g);
         return "event_register";
     }
-
-
-
-
 
     @PostMapping("/event_register")
     public String registerEvent(@ModelAttribute EventDTO e) {
