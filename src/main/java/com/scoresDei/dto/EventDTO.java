@@ -14,11 +14,15 @@ public class EventDTO {
     private Date timeStamp;
 
     private int gameId;
+    private int playerId;
+    // private String playerName;
 
-    private String playerName;
+    public int getPlayerId() {
+        return playerId;
+    }
 
-    public String getPlayerName() {
-        return playerName;
+    public void setPlayerId(int playerId) {
+        this.playerId = playerId;
     }
 
     public int getType() {
@@ -29,10 +33,6 @@ public class EventDTO {
         this.type = type;
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
-
     public int getGameId() {
         return gameId;
     }
@@ -40,7 +40,6 @@ public class EventDTO {
     public void setGameId(int gameId) {
         this.gameId = gameId;
     }
-
 
     public Date getTimeStamp() {
         return timeStamp;

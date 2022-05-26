@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import com.scoresDei.data.Player;
 import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
+import com.scoresDei.dto.EventDTO;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.dto.PlayerDTO;
 import com.scoresDei.dto.TeamDTO;
@@ -92,6 +93,13 @@ public class DataController {
         return "game_create";
     }
 
+    @GetMapping("/event_register")
+    public String eventRegister(Model m) {
+        m.addAttribute("event", new EventDTO());
+        m.addAttribute("games", gameService.getActiveAndFutureGames());
+        return "event_register";
+    }
+
     @GetMapping("/player_create")
     public String createPlayer(Model m) {
         m.addAttribute("playerObj", new PlayerDTO());
@@ -118,6 +126,13 @@ public class DataController {
     public String createGame(@ModelAttribute GameDTO g) {
         System.out.println("Game: " + g.toString());
         this.gameService.add(g);
+        return "redirect:index";
+    }
+
+    @PostMapping("/event_register")
+    public String registerEvent(@ModelAttribute EventDTO e) {
+        System.out.println("Event: " + e.toString());
+        this.eventService.addEventFromDTO(e);
         return "redirect:index";
     }
 

@@ -38,11 +38,27 @@ public class Game {
         this.date = date;
         this.goalsA = goalsA;
         this.goalsB = goalsB;
-        this.isOngoing = isOngoing;
-        this.isInterrupted = isInterrupted;
+        this.setOngoing(isOngoing);
+        this.setInterrupted(isInterrupted);
         this.teamA = teamA;
         this.teamB = teamB;
         this.events = new ArrayList<>();
+    }
+
+    public boolean isInterrupted() {
+        return isInterrupted;
+    }
+
+    public void setInterrupted(boolean isInterrupted) {
+        this.isInterrupted = isInterrupted;
+    }
+
+    public boolean isOngoing() {
+        return isOngoing;
+    }
+
+    public void setOngoing(boolean isOngoing) {
+        this.isOngoing = isOngoing;
     }
 
     public Game(String location, Date date, Team teamA, Team teamB) {
@@ -50,8 +66,8 @@ public class Game {
         this.date = date;
         this.goalsA = 0;
         this.goalsB = 0;
-        this.isOngoing = false;
-        this.isInterrupted = false;
+        this.setOngoing(false);
+        this.setInterrupted(false);
         this.teamA = teamA;
         this.teamB = teamB;
         this.events = new ArrayList<>();

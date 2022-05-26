@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Event registration</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- registers events in a football match from html inputs and radio buttons -->
+    <p>Register the event you have seen in a game.</p>
+    <form method="post" th:action = "@{/register_event}" th:object = "${event}">
+        <select th:field="*{gameId}">
+            <option th:each="g : ${games}" th:text="${g.teamA.name}+' - '+${g.teamB.name}+'('+${g.date}+')'" th:value = "${g.id}"></option>
+        </select>
+        <p>Event:</p>
+
+        <label for="Start">Start</label>
+        <input type="radio" name="event" value="Start" th:field="*{type}" th:value="0">
+        <br>
+        <label for="End">End</label>
+        <input type="radio" name="event" value="End" th:value="1"th:field="*{type}" >
+        
+        <br>
+        <label for="goal">Goal</label>
+        <input type="radio" name="event" value="goal" th:value="2" th:field="*{type}" >
+        
+        <br>
+        <label for="yellow">Yellow Card</label>
+        <input type="radio" name="event" value="yellow" th:value="3" th:field="*{type}" >
+        
+        <br>
+        <label for="red">Red Card</label>
+        <input type="radio" name="event" value="red" th:value="4" th:field="*{type}" > 
+        
+        <br>
+        <label for="interrupt">Game Interrupted</label>
+        <input type="radio" name="event" value="interrupt" th:value="5" th:field="*{type}" >
+        
+        <br>
+        <label for="">Game Resumed</label>
+        <input type="radio" name="event" value="resume" th:value="6" th:field="*{type}" >
+        <div id = "own_goal_input" hidden="true">
+            <label for="own_goal">Own goal?</label>
+            <input type = "checkbox" name="own_goal">
+        </div>
+
+        <input type="submit" value="Register">
+    </form>
+</head>
+</html>

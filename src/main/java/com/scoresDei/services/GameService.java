@@ -33,6 +33,25 @@ public class GameService {
         return ans;
     }
 
+    public ArrayList<Game> getFutureGames() {
+        ArrayList<Game> ans = new ArrayList<>();
+        for (var i : gameRepository.getFutureGames()) {
+            ans.add(i);
+        }
+        return ans;
+    }
+
+    public ArrayList<Game> getActiveAndFutureGames() {
+        ArrayList<Game> ans = new ArrayList<>();
+        for (var i : gameRepository.getFutureGames()) {
+            ans.add(i);
+        }
+        for (var i : gameRepository.getActiveGames()) {
+            ans.add(i);
+        }
+        return ans;
+    }
+
     public ArrayList<Game> getAllGames() {
         ArrayList<Game> ans = new ArrayList<>();
         for (var i : gameRepository.findAll()) {
