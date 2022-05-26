@@ -60,6 +60,10 @@ public class GameService {
         return ans;
     }
 
+    public Game getGameById(int id) {
+        return gameRepository.findById(id).get();
+    }
+
     public void add(Game g) {
         gameRepository.save(g);
     }
@@ -74,7 +78,7 @@ public class GameService {
             date = new GregorianCalendar(1980, 12, 12).getTime();
             e.printStackTrace();
         }
-        if(gdto.getTeamAId() == gdto.getTeamBId()){
+        if (gdto.getTeamAId() == gdto.getTeamBId()) {
             // TODO: return some kind of error
             return;
         }

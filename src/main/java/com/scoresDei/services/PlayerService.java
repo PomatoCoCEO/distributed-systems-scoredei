@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
 import com.scoresDei.data.Player;
 import com.scoresDei.dto.PlayerDTO;
@@ -34,12 +35,28 @@ public class PlayerService {
             e.printStackTrace();
         }
         System.out.println("Team : " + teamRepository.getTeamById(pdto.getTeamId()));
-        Player p = new Player(pdto.getName(), pdto.getPosition(), birthDate, teamRepository.getTeamById(pdto.getTeamId()));
+        Player p = new Player(pdto.getName(), pdto.getPosition(), birthDate,
+                teamRepository.getTeamById(pdto.getTeamId()));
         playerRepository.save(p);
     }
 
     public void addPlayer(Player p) {
         playerRepository.save(p);
+    }
+
+    public void updatePlayer(Player p) {
+        playerRepository.save(p);
+    }
+
+    public ArrayList<Player> getPlayers() {
+        ArrayList<Player> ans = new ArrayList<>();
+        for (var p : playerRepository.findAll())
+            ans.add(p);
+        return ans;
+    }
+
+    public int loadGoals(Player p) {
+        return playerRepository.loadGoals(p);
     }
 
 }

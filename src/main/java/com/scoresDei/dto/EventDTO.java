@@ -49,4 +49,10 @@ public class EventDTO {
         this.timeStamp = timeStamp;
     }
 
+    @Override
+    public String toString() {
+        return "EventDTO [gameId=" + gameId + ", playerId=" + playerId + ", timeStamp=" + timeStamp + ", type=" + type
+                + "]";
+    }
+
 }

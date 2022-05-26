@@ -29,6 +29,10 @@ public class EventService {
         eventRepository.save(e);
     }
 
+    public Event getEventById(int id) {
+        return eventRepository.findById(id).get();
+    }
+
     public void addEventFromDTO(EventDTO eventDto) {
         EventType aidType;
         Player p = null;
@@ -44,14 +48,18 @@ public class EventService {
                 p = playerRepository.findById(eventDto.getPlayerId()).get();
                 break;
             case 3:
-                aidType = EventType.YELLOW_CARD;
+                aidType = EventType.OWN_GOAL;
                 p = playerRepository.findById(eventDto.getPlayerId()).get();
                 break;
             case 4:
-                aidType = EventType.RED_CARD;
+                aidType = EventType.YELLOW_CARD;
                 p = playerRepository.findById(eventDto.getPlayerId()).get();
                 break;
             case 5:
+                aidType = EventType.RED_CARD;
+                p = playerRepository.findById(eventDto.getPlayerId()).get();
+                break;
+            case 6:
                 aidType = EventType.INTERRUPT;
                 break;
             default:
@@ -67,6 +75,15 @@ public class EventService {
                                                                                           // exception
             return;
         }
+        if (g.isInterrupted() && aidType != EventType.RESUME) {
+            return;
+        }
+        if (g.isOngoing() && aidType == EventType.START) {
+            return;
+        }
+        if (aidType == EventType.RESUME && !g.isInterrupted()) {
+            return;
+        }
         switch (aidType) {
             case START:
                 g.setOngoing(true);
@@ -77,11 +94,29 @@ public class EventService {
                 g.setOngoing(false);
                 gameRepository.save(g);
                 break;
-            default:
-                System.out.println("Not supported yet");
+            case GOAL:
+
+                break;
+            case OWN_GOAL:
+
+                break;
+            case YELLOW_CARD:
+
+                break;
+            case RED_CARD:
+
+                break;
+            case INTERRUPT:
+                g.setInterrupted(true);
+                gameRepository.save(g);
+                break;
+            case RESUME:
+                g.setInterrupted(false);
+                gameRepository.save(g);
                 break;
         }
         Event e = new Event(aidType, new Date(), null, g, p);
+        System.out.println("Saving new event: " + e);
         eventRepository.save(e);
     }
 }

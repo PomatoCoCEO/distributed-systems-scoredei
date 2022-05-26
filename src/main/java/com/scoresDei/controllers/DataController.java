@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import com.scoresDei.data.Game;
 import com.scoresDei.data.Player;
 import com.scoresDei.data.Team;
 import com.scoresDei.data.User;
@@ -73,10 +74,35 @@ public class DataController {
         return "populated";
     }
 
+    @GetMapping("/game_details")
+    public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+        m.addAttribute("game", gameService.getGameById(id));
+        return "game_details";
+
+    }
+
     @GetMapping("/games")
     public String games(Model m) {
         m.addAttribute("games", gameService.getActiveGames());
         return "active_games";
+    }
+
+    @GetMapping("/future_games")
+    public String futureGames(Model m) {
+        m.addAttribute("games", gameService.getFutureGames());
+        return "future_games";
+    }
+
+    @GetMapping("/past_games")
+    public String pastGames(Model m) {
+        m.addAttribute("games", gameService.getFutureGames());
+        return "past_games";
+    }
+
+    @GetMapping("/teams")
+    public String teams(Model m) {
+        m.addAttribute("teams", teamService.getTeams());
+        return "teams";
     }
 
     @GetMapping("/team_create")
@@ -94,9 +120,12 @@ public class DataController {
     }
 
     @GetMapping("/event_register")
-    public String eventRegister(Model m) {
-        m.addAttribute("event", new EventDTO());
-        m.addAttribute("games", gameService.getActiveAndFutureGames());
+    public String eventRegister(Model m, @RequestParam("gameid") int gameId) {
+        Game g = gameService.getGameById(gameId);
+        var evdto = new EventDTO();
+        evdto.setGameId(gameId);
+        m.addAttribute("event", evdto);
+        m.addAttribute("game", g);
         return "event_register";
     }
 

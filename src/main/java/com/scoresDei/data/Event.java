@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Event {
     public enum EventType {
-        START, END, GOAL, YELLOW_CARD, RED_CARD, INTERRUPT, RESUME
+        START, END, GOAL, OWN_GOAL, YELLOW_CARD, RED_CARD, INTERRUPT, RESUME
     }
 
     @Id

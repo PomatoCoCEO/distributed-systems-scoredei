@@ -1,8 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <body>
-        <div th:for="" >
 
-        </div>
+<head>
+    <meta http-equiv="refresh" content="20">
+    <!-- refreshes content every 20 seconds -->
+</head>
+
+<body>
+    <h1> Future games</h1>
+    <div th:each="g : ${games}">
+        <div th:text="'Game occurring in '+${g.location}"></div>
+        <p style="display: inline-block">
+        <div style="display: inline-block" th:text="${g.teamA.name}"></div> : <div style="display: inline-block"
+            th:text="${g.goalsA}"></div>
+        </p>
+        <img th:src="${g.teamA.imagePath}" />
+        <p>
+        <div style="display: inline-block" th:text="${g.teamB.name}"></div> : <div style="display: inline-block"
+            th:text="${g.goalsB}"></div>
+        </p>
+        <img th:src="${g.teamB.imagePath}" />
+        <a th:href="@{/game_details(id=${g.id})}"> Details </a>
+        <p>Click <a>here </a> to see the game events.</p>
+        <p>----------</p>
+    </div>
+
     <body>
+
 </html>

@@ -59,4 +59,16 @@ public class TeamService {
     public int getTotalGames(Team t) {
         return t.getnDraws() + t.getnWins() + t.getnLosses();
     }
+
+    public int loadWins(Team t){
+        return teamRepository.loadWins(t);
+    }
+
+    public int loadDraws(Team t){
+        return teamRepository.loadDraws(t);
+    }
+
+    public int loadLosses(Team t){
+        return teamRepository.loadLosses(t);
+    }
 }

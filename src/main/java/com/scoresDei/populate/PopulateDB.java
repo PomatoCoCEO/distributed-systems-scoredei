@@ -260,15 +260,36 @@ public class PopulateDB {
         }
     }
 
+    private void populateGoals() {
+        var players = playerService.getPlayers();
+        for (var p : players) {
+            p.setGoalsScored(playerService.loadGoals(p));
+            playerService.updatePlayer(p);
+        }
+    }
+
+    private void populateResults() {
+        var teams = teamService.getTeams();
+        for (var t : teams) {
+            t.setnWins(teamService.loadWins(t));
+            t.setnLosses(teamService.loadLosses(t));
+            t.setnDraws(teamService.loadDraws(t));
+            teamService.updateTeam(t);
+        }
+
+    }
+
     public PopulateDB() {
     }
 
     public void populateDB() {
-        populateTeams();
-        populatePlayers();
-        populateGames();
-        populateUsers();
-        populateEvents();
+        // populateTeams();
+        // populatePlayers();
+        // populateGames();
+        // populateUsers();
+        // populateEvents();
+        populateResults();
+        populateGoals();
     }
 
 }

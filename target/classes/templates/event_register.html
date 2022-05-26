@@ -1,46 +1,90 @@
 <!DOCTYPE html>
 <html>
-<head>
+    <script>
+        function onSelectTeam() {
+            let r = document.getElementById('teamSelect');
+            let x = document.getElementById('ChoosePlayerA');
+            let y = document.getElementById('ChoosePlayerB');
+            x.value = "";
+            y.value = "";
+            if(r.value === "1") {
+                x.hidden=false;
+                y.hidden=true;
+            }
+            else {
+                x.hidden=true;
+                y.hidden=false;
+            }
+        }
+        function deactivatePicker() {
+            console.log("whassup deactivate");
+            let x = document.getElementById('PlayerPicker');
+            let y = document.getElementById("teamSelect");
+            y.value = "";
+            let a = document.getElementById('ChoosePlayerA');
+            let b = document.getElementById('ChoosePlayerB');
+            a.value = "";
+            b.value = "";
+            x.hidden=true;
+        }
+        function activatePicker() {
+            console.log("whassup activate");
+            let x = document.getElementById('PlayerPicker');
+            x.hidden=false;
+        }
+    </script>
     <title>Event registration</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- registers events in a football match from html inputs and radio buttons -->
     <p>Register the event you have seen in a game.</p>
-    <form method="post" th:action = "@{/register_event}" th:object = "${event}">
-        <select th:field="*{gameId}">
-            <option th:each="g : ${games}" th:text="${g.teamA.name}+' - '+${g.teamB.name}+'('+${g.date}+')'" th:value = "${g.id}"></option>
-        </select>
+    <form method="post" th:action = "@{/event_register}" th:object = "${event}">
+        <input type = "hidden" th:field="*{gameId}" value="${game.id}">
         <p>Event:</p>
-
         <label for="Start">Start</label>
-        <input type="radio" name="event" value="Start" th:field="*{type}" th:value="0">
-        <br>
+        <input type="radio" name="event" value="Start" th:field="*{type}" th:value="0" onclick="deactivatePicker()">
+        <br/>
         <label for="End">End</label>
-        <input type="radio" name="event" value="End" th:value="1"th:field="*{type}" >
+        <input type="radio" name="event" value="End" th:value="1" th:field="*{type}" onclick="deactivatePicker()">
         
-        <br>
+        <br/>
         <label for="goal">Goal</label>
-        <input type="radio" name="event" value="goal" th:value="2" th:field="*{type}" >
-        
-        <br>
-        <label for="yellow">Yellow Card</label>
-        <input type="radio" name="event" value="yellow" th:value="3" th:field="*{type}" >
-        
-        <br>
-        <label for="red">Red Card</label>
-        <input type="radio" name="event" value="red" th:value="4" th:field="*{type}" > 
-        
-        <br>
-        <label for="interrupt">Game Interrupted</label>
-        <input type="radio" name="event" value="interrupt" th:value="5" th:field="*{type}" >
-        
-        <br>
-        <label for="">Game Resumed</label>
-        <input type="radio" name="event" value="resume" th:value="6" th:field="*{type}" >
-        <div id = "own_goal_input" hidden="true">
-            <label for="own_goal">Own goal?</label>
-            <input type = "checkbox" name="own_goal">
-        </div>
+        <input type="radio" name="event" value="goal" th:value="2" th:field="*{type}" onclick="activatePicker()">
 
+        <br/>
+        <label for="goal">Own Goal</label>
+        <input type="radio" name="event" value="own_goal" th:value="3" th:field="*{type}" onclick="activatePicker()">
+        
+        <br/>
+        <label for="yellow">Yellow Card</label>
+        <input type="radio" name="event" value="yellow" th:value="4" th:field="*{type}" onclick="activatePicker()">
+        
+        <br/>
+        <label for="red">Red Card</label>
+        <input type="radio" name="event" value="red" th:value="5" th:field="*{type}" onclick="activatePicker()"> 
+        
+        <br/>
+        <label for="interrupt">Game Interrupted</label>
+        <input type="radio" name="event" value="interrupt" th:value="6" th:field="*{type}" onclick="deactivatePicker()">
+        
+        <br/>
+        <label for="">Game Resumed</label>
+        <input type="radio" name="event" value="resume" th:value="7" th:field="*{type}" onclick="deactivatePicker()">
+        <br/>
+        
+        <div hidden="true" id = "PlayerPicker">
+            Choose team:
+            <select id = "teamSelect" onchange="onSelectTeam()">
+                <option value="1" th:text = "${game.teamA.name}" selected ></option>
+                <option value="2" th:text = "${game.teamB.name}" ></option>
+            </select>
+            Choose player:
+            <select th:field = "*{playerId}" id = "ChoosePlayerA">
+                <option th:each="player : ${game.teamA.players}" th:text= "${player.name}" th:value="${player.id}" ></option>
+            </select>
+            <select th:field = "*{playerId}" id = "ChoosePlayerB" hidden="true">
+                <option th:each="player : ${game.teamB.players}" th:text= "${player.name}" th:value="${player.id}" ></option>
+            </select>
+        </div>
         <input type="submit" value="Register">
     </form>
 </head>

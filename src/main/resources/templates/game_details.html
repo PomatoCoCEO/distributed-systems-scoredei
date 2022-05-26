@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <div th:object="${game}">
+
+        <div th:text="'Game occurring in '+${game.location}"></div>
+        <p style="display: inline-block">
+        <div style="display: inline-block" th:text="${game.teamA.name}"></div> : <div style="display: inline-block"
+            th:text="${game.goalsA}"></div>
+        </p>
+        <img th:src="${game.teamA.imagePath}" />
+        <p>
+        <div style="display: inline-block" th:text="${game.teamB.name}"></div> : <div style="display: inline-block"
+            th:text="${game.goalsB}"></div>
+        </p>
+        <img th:src="${game.teamB.imagePath}" />
+        <div th:each="e : ${game.events}">
+            <div>
+                <p th:text="${e.type} + ' by '+ ${e.player}">
+                    
+                    </p>
+            </div>
+            
+            <p>----------</p>
+        </div>
+    </div>
+
+    <body>
+
+</html>
