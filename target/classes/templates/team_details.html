@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="refresh" content="20">
-        <!-- refreshes content every 20 seconds -->
-      </head>
-    <body>
-        <h1> Team </h1>
-        <p style="display: inline-block"><div style="display: inline-block" th:text="${t.name}"></div> : <div th:text="'Wins: ' +${t.nWins}+ ',Draws: ' +${t.nDraws} +',Losses: ' +${t.nLosses}"> </div>  </p>
-        <img th:src="${t.imagePath}"/>
 
-        
-        
-        <div th:each="p : ${team.players}" >
-            <p style="display: inline-block"><div style="display: inline-block" th:text="${p}"></div>  <a th:href="@{/team_details(id=${t.id})}"> Details </a>  </p>
-            <p>----------</p>
-        </div>
+<head>
+    <meta http-equiv="refresh" content="20">
+    <!-- refreshes content every 20 seconds -->
+</head>
+
+<body>
+    <h1> Team </h1>
+    <p style="display: inline-block">
+    <div style="display: inline-block" th:text="${team.name}"></div> : <div
+        th:text="'Wins: ' +${team.nWins}+ ',Draws: ' +${team.nDraws} +',Losses: ' +${team.nLosses}"> </div>
+    </p>
+    <img th:src="${team.imagePath}" />
+
+
+    <h2>Players </h2>
+    <div th:each="p : ${team.players}">
+        <p style="display: inline-block">
+        <div style="display: inline-block" th:text="${p.name}+ ', ' +${p.position}"></div> <a
+            th:href="@{/player_details(id=${p.id})}"> Details
+        </a>
+        </p>
+        <p>----------</p>
+    </div>
+
     <body>
+
 </html>

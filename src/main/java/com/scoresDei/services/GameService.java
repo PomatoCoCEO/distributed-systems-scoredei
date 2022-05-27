@@ -24,7 +24,7 @@ public class GameService {
     @Autowired
     private TeamRepository teamRepository;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> ans = new ArrayList<>();
@@ -34,9 +34,36 @@ public class GameService {
         return ans;
     }
 
+    public ArrayList<Game> getPastGames() {
+        ArrayList<Game> ans = new ArrayList<>();
+        Date date;
+        try {
+            date = DATE_FORMAT.parse(DATE_FORMAT.format(new Date()));
+        } catch (ParseException e) {
+            date = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+
+        }
+        // System.out.println("here" + gameRepository.getPastGames(date));
+        for (var i : gameRepository.getPastGames(date)) {
+            ans.add(i);
+        }
+        return ans;
+    }
+
     public ArrayList<Game> getFutureGames() {
         ArrayList<Game> ans = new ArrayList<>();
-        for (var i : gameRepository.getFutureGames()) {
+        Date date;
+        try {
+            date = DATE_FORMAT.parse(DATE_FORMAT.format(new Date()));
+
+        } catch (ParseException e) {
+            date = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+
+        }
+        // System.out.println("here" + gameRepository.getFutureGames(date));
+        for (var i : gameRepository.getFutureGames(date)) {
             ans.add(i);
         }
         return ans;
@@ -44,7 +71,16 @@ public class GameService {
 
     public ArrayList<Game> getActiveAndFutureGames() {
         ArrayList<Game> ans = new ArrayList<>();
-        for (var i : gameRepository.getFutureGames()) {
+        Date date;
+        try {
+            date = DATE_FORMAT.parse(DATE_FORMAT.format(new Date()));
+
+        } catch (ParseException e) {
+            date = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+
+        }
+        for (var i : gameRepository.getFutureGames(date)) {
             ans.add(i);
         }
         for (var i : gameRepository.getActiveGames()) {
@@ -89,6 +125,6 @@ public class GameService {
     }
 
     public boolean isExpelled(Game g, Player p) {
-        return gameRepository.redCards(g, p) >=1 || gameRepository.yellowCards(g, p) > 2;
+        return gameRepository.redCards(g, p) >= 1 || gameRepository.yellowCards(g, p) > 2;
     }
 }

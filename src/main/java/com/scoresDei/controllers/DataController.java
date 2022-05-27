@@ -75,6 +75,8 @@ public class DataController {
     // return "login";
     // }
 
+    // temporariamente
+
     @GetMapping("/game_details")
     public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
         m.addAttribute("game", gameService.getGameById(id));
@@ -91,12 +93,13 @@ public class DataController {
     @GetMapping("/future_games")
     public String futureGames(Model m) {
         m.addAttribute("games", gameService.getFutureGames());
+        // System.out.println(m.getAttribute("games"));
         return "future_games";
     }
 
     @GetMapping("/past_games")
     public String pastGames(Model m) {
-        m.addAttribute("games", gameService.getFutureGames());
+        m.addAttribute("games", gameService.getPastGames());
         return "past_games";
     }
 
