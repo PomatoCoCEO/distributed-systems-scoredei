@@ -20,7 +20,6 @@ import com.scoresDei.services.PlayerService;
 import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
 import com.scoresDei.utils.FileUploadUtil;
-import com.scoresDei.utils.JwtProcessing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,32 +46,34 @@ public class DataController {
     @Autowired
     UserService userService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    PopulateDB populateDB;
 
     @GetMapping({ "/", "/index" })
     public String index() {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+    // @GetMapping("/login")
+    // public String login() {
+    // return "login";
+    // }
 
-    @PostMapping("/login")
-    public String loginPost(@RequestParam UserDTO userdto) {
-        try {
+    // @PostMapping("/login")
+    // public String loginPost(@RequestParam UserDTO userdto) {
+    // try {
 
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userdto.getUsername(), userdto.getPassword()));
-        } catch (Exception e) {
-            return "redirect:/error";
-        }
-        final UserDetails userDetails = userService.loadUserByUsername(userdto.getUsername());
-        final String jwt = JwtProcessing.getJwtToken(userDetails);
+    // authenticationManager.authenticate(
+    // new UsernamePasswordAuthenticationToken(userdto.getUsername(),
+    // userdto.getPassword()));
+    // } catch (Exception e) {
+    // return "redirect:/error";
+    // }
+    // final UserDetails userDetails =
+    // userService.loadUserByUsername(userdto.getUsername());
+    // // final String jwt = JwtProcessing.getJwtToken(userDetails);
 
-        return "login";
-    }
+    // return "login";
+    // }
 
     @GetMapping("/game_details")
     public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
@@ -123,21 +124,10 @@ public class DataController {
         return "teams";
     }
 
-    @GetMapping("/event_register")
-    public String eventRegister(Model m, @RequestParam("gameid") int gameId) {
-        Game g = gameService.getGameById(gameId);
-        var evdto = new EventDTO();
-        evdto.setGameId(gameId);
-        m.addAttribute("event", evdto);
-        m.addAttribute("game", g);
-        return "event_register";
-    }
-
-    @PostMapping("/event_register")
-    public String registerEvent(@ModelAttribute EventDTO e) {
-        System.out.println("Event: " + e.toString());
-        this.eventService.addEventFromDTO(e);
-        return "redirect:index";
+    @GetMapping("/populate")
+    public String populate() {
+        populateDB.populateDB();
+        return "populated";
     }
 
 }

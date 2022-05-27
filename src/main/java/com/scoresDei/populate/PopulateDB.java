@@ -218,7 +218,8 @@ public class PopulateDB {
         User user1 = new User("user1", pw.encode("password1"), "123456789", "user1@gmail.com", null);
         User user2 = new User("user2", pw.encode("password2"), "123456789", "user2@gmail.com", null);
         User user3 = new User("user3", pw.encode("password3"), "123456789", "user3@gmail.com", null);
-        ArrayList<User> a = new ArrayList<User>(List.of(user1, user2, user3));
+        User user4 = new User("user4", pw.encode("password4"), "123456789", "user4@gmail.com", "admin");
+        ArrayList<User> a = new ArrayList<User>(List.of(user1, user2, user3, user4));
         userService.addUsers(a);
     }
 
