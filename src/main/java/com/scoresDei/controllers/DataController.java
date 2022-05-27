@@ -124,10 +124,4 @@ public class DataController {
         return "teams";
     }
 
-    @GetMapping("/populate")
-    public String populate() {
-        populateDB.populateDB();
-        return "populated";
-    }
-
 }
