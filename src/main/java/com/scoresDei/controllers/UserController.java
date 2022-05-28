@@ -37,6 +37,6 @@ public class UserController {
     public String registerEvent(@ModelAttribute EventDTO e) {
         System.out.println("Event: " + e.toString());
         this.eventService.addEventFromDTO(e);
-        return "redirect:index";
+        return "redirect:/index";
     }
 }

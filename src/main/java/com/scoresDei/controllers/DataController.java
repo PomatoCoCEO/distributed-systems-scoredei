@@ -53,6 +53,12 @@ public class DataController {
         return "index";
     }
 
+    @GetMapping("/populate") // for testing purposes only
+    public String populate() {
+        populateDB.populateDB();
+        return "populated";
+    }
+
     // @GetMapping("/login")
     // public String login() {
     // return "login";

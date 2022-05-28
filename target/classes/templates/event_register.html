@@ -37,7 +37,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <!-- registers events in a football match from html inputs and radio buttons -->
     <p>Register the event you have seen in a game.</p>
-    <form method="post" th:action = "@{/event_register}" th:object = "${event}">
+    <form method="post" th:action = "@{/user/event_register}" th:object = "${event}">
         <input type = "hidden" th:field="*{gameId}" value="${game.id}">
         <p>Event:</p>
         <label for="Start">Start</label>

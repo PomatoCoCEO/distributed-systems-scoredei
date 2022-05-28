@@ -121,6 +121,8 @@ public class EventService {
                 } else {
                     g.setGoalsB(g.getGoalsB() + 1);
                 }
+                p.setGoalsScored(p.getGoalsScored() + 1);
+                playerRepository.save(p); // also saving the goals scored
                 gameRepository.save(g);
                 break;
             case OWN_GOAL:
