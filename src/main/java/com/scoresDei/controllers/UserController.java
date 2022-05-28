@@ -1,9 +1,13 @@
 package com.scoresDei.controllers;
 
+import java.security.Principal;
+
 import com.scoresDei.data.Game;
+import com.scoresDei.data.User;
 import com.scoresDei.dto.EventDTO;
 import com.scoresDei.services.EventService;
 import com.scoresDei.services.GameService;
+import com.scoresDei.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,8 +27,15 @@ public class UserController {
     @Autowired
     EventService eventService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/event_register")
-    public String eventRegister(Model m, @RequestParam("gameid") int gameId) {
+    public String eventRegister(Model m, @RequestParam("gameid") int gameId, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         Game g = gameService.getGameById(gameId);
         var evdto = new EventDTO();
         evdto.setGameId(gameId);
@@ -34,7 +45,11 @@ public class UserController {
     }
 
     @PostMapping("/event_register")
-    public String registerEvent(@ModelAttribute EventDTO e) {
+    public String registerEvent(@ModelAttribute EventDTO e, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         System.out.println("Event: " + e.toString());
         this.eventService.addEventFromDTO(e);
         return "redirect:/index";

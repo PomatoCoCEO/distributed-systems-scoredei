@@ -1,6 +1,7 @@
 package com.scoresDei.controllers;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -49,12 +50,20 @@ public class DataController {
     PopulateDB populateDB;
 
     @GetMapping({ "/", "/index" })
-    public String index() {
+    public String index(Principal principal, Model m) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         return "index";
     }
 
     @GetMapping("/populate") // for testing purposes only
-    public String populate() {
+    public String populate(Principal principal, Model m) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         populateDB.populateDB();
         return "populated";
     }
@@ -84,51 +93,83 @@ public class DataController {
     // temporariamente
 
     @GetMapping("/game_details")
-    public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+    public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("game", gameService.getGameById(id));
         return "game_details";
 
     }
 
     @GetMapping("/games")
-    public String games(Model m) {
+    public String games(Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("games", gameService.getActiveGames());
         return "active_games";
     }
 
     @GetMapping("/future_games")
-    public String futureGames(Model m) {
+    public String futureGames(Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("games", gameService.getFutureGames());
         // System.out.println(m.getAttribute("games"));
         return "future_games";
     }
 
     @GetMapping("/past_games")
-    public String pastGames(Model m) {
+    public String pastGames(Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("games", gameService.getPastGames());
         return "past_games";
     }
 
     @GetMapping("/team_details")
-    public String teamDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+    public String teamDetails(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("team", teamService.findById(id));
         return "team_details";
     }
 
     @GetMapping("/player_details")
-    public String playerDetails(@RequestParam(name = "id", required = true) int id, Model m) {
+    public String playerDetails(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("player", playerService.getPlayerById(id));
         return "player_details";
     }
 
     @GetMapping("/best_scorer")
-    public String BestScorer(Model m) {
+    public String BestScorer(Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("player", playerService.getBestScorer());
         return "player_details";
     }
 
     @GetMapping("/teams")
-    public String teams(Model m) {
+    public String teams(Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
         m.addAttribute("teams", teamService.getSortedTeams());
         return "teams";
     }

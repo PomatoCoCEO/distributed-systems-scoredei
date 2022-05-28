@@ -20,6 +20,11 @@
                 <li><a class="nav-link" th:href="@{/games}">Games</a></li>
 
                 <li><a class="nav-link" th:href="@{/best_scorer}">Best Scorer</a></li>
+
+                <li><a class="nav-link" th:if = "${user != null and user.isAdmin}" th:href="@{admin/register}">Register User</a></li>
+                <li><a class="nav-link" th:if = "${user != null and user.isAdmin}" th:href="@{/team/create}">Create Team</a></li>
+                <li><a class="nav-link" th:if = "${user != null and user.isAdmin}" th:href="@{/game/create}">Create Game</a></li>
+                <li><a class="nav-link" th:href="@{/player/create}">Create Player</a></li>
             </ul>
         </div>
     </nav>
