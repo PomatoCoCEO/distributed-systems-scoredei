@@ -9,22 +9,39 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
-    <h1> Past games</h1>
-    <div th:each="g : ${games}">
-        <div th:text="'Game occurring in '+${g.location}"></div>
-        <p style="display: inline-block">
-        <div style="display: inline-block" th:text="${g.teamA.name}"></div> : <div style="display: inline-block"
-            th:text="${g.goalsA}"></div>
-        </p>
-        <img th:src="${g.teamA.imagePath}" />
-        <p>
-        <div style="display: inline-block" th:text="${g.teamB.name}"></div> : <div style="display: inline-block"
-            th:text="${g.goalsB}"></div>
-        </p>
-        <img th:src="${g.teamB.imagePath}" />
-        <a th:href="@{/game_details(id=${g.id})}"> Details </a>
-        <p>Click <a>here </a> to see the game events.</p>
-        <p>----------</p>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Past games</h1>
+    </div>
+    <div style="margin-left: 200px; margin-right:200px; ">
+
+        <div th:each="g : ${games}" class="row"
+            style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px black; border-radius: 20px; padding: 20px;">
+
+            <div class="col-5" style="align-items: center; text-align:center;">
+
+                <img th:src="${g.teamA.imagePath}" />
+                <p th:text="${g.teamA.name}"></p>
+            </div>
+
+            <div class="col-2" style="align-items: center; text-align:center;">
+                <h2>Vs</h2>
+                <p th:text="${g.goalsA}+'-'+${g.goalsB}"></p>
+                <p th:text="${g.location}"></p>
+                <button class="btn btn-dark">
+
+                    <a th:href="@{/game_details(id=${g.id})}" style="text-decoration: none; color:white;"> Details
+                    </a>
+                </button>
+            </div>
+            <div class=" col-5" style="align-items: center; text-align:center;">
+
+                <img th:src="${g.teamB.imagePath}" />
+                <p th:text="${g.teamB.name}"></p>
+            </div>
+
+        </div>
+
     </div>
 
     <body>

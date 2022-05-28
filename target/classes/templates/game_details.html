@@ -1,27 +1,70 @@
 <!DOCTYPE html>
 <html>
 
+<head>
+    <meta http-equiv="refresh" content="20">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
 <body>
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Game details</h1>
+    </div>
     <div th:object="${game}">
 
-        <div th:text="'Game occurring in '+${game.location}"></div>
-        <p style="display: inline-block">
-        <div style="display: inline-block" th:text="${game.teamA.name}"></div> : <div style="display: inline-block"
-            th:text="${game.goalsA}"></div>
-        </p>
-        <img th:src="${game.teamA.imagePath}" />
-        <p>
-        <div style="display: inline-block" th:text="${game.teamB.name}"></div> : <div style="display: inline-block"
-            th:text="${game.goalsB}"></div>
-        </p>
-        <img th:src="${game.teamB.imagePath}" />
+        <div style="margin-left: 200px; margin-right:200px; ">
+
+            <div class="row"
+                style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px black; border-radius: 20px; padding: 20px;">
+
+                <div class="col-5" style="align-items: center; text-align:center;">
+
+                    <img th:src="${game.teamA.imagePath}" />
+                    <p th:text="${game.teamA.name}"></p>
+                    <button class="btn btn-dark">
+
+                        <a th:href="@{/team_details(id=${game.teamA.id})}" style="text-decoration: none; color:white;">
+                            Details
+                        </a>
+                    </button>
+                </div>
+
+                <div class="col-2" style="align-items: center; text-align:center;">
+                    <h2>Vs</h2>
+                    <p th:text="${game.goalsA}+'-'+${game.goalsB}"></p>
+                    <p th:text="${game.location}"></p>
+
+                </div>
+                <div class=" col-5" style="align-items: center; text-align:center;">
+
+                    <img th:src="${game.teamB.imagePath}" />
+                    <p th:text="${game.teamB.name}"></p>
+                    <button class="btn btn-dark">
+
+                        <a th:href="@{/team_details(id=${game.teamB.id})}" style="text-decoration: none; color:white;">
+                            Details
+                        </a>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+        <div style="text-align: center;">
+
+            <h2>Events </h2>
+        </div>
+        <!-- missing Css -->
         <div th:each="e : ${game.events}">
             <div>
                 <p th:text="${e.type} + ' by '+ ${e.player}">
-                    
-                    </p>
+
+                </p>
             </div>
-            
+
             <p>----------</p>
         </div>
     </div>

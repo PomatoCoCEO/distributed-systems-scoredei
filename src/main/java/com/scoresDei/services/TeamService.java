@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
-    private static final String TEAM_IMAGE_PATH = "static/images/teams/";
-    private static final String RESOURCE_STRING = "src/main/resources/";
+    private static final String TEAM_IMAGE_PATH = "images/teams/";
+    private static final String RESOURCE_STRING = "src/main/resources/static/";
 
     public void add(Team t) {
         teamRepository.save(t);
@@ -66,20 +66,19 @@ public class TeamService {
         return ans;
     }
 
-
     public int getTotalGames(Team t) {
         return t.getnDraws() + t.getnWins() + t.getnLosses();
     }
 
-    public int loadWins(Team t){
+    public int loadWins(Team t) {
         return teamRepository.loadWins(t);
     }
 
-    public int loadDraws(Team t){
+    public int loadDraws(Team t) {
         return teamRepository.loadDraws(t);
     }
 
-    public int loadLosses(Team t){
+    public int loadLosses(Team t) {
         return teamRepository.loadLosses(t);
     }
 }

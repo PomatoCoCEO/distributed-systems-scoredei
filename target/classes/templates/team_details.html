@@ -3,26 +3,61 @@
 
 <head>
     <meta http-equiv="refresh" content="20">
-    <!-- refreshes content every 20 seconds -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1> Team </h1>
-    <p style="display: inline-block">
-    <div style="display: inline-block" th:text="${team.name}"></div> : <div
-        th:text="'Wins: ' +${team.nWins}+ ',Draws: ' +${team.nDraws} +',Losses: ' +${team.nLosses}"> </div>
-    </p>
-    <img th:src="${team.imagePath}" />
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Team Details</h1>
+    </div>
+
+    <div style="text-align: center;">
+        <h2 th:text="${team.name}"></h2>
+        <img th:src="${team.imagePath}" />
+        <p th:text="'W/L/D'"></p>
+        <p th:text="${team.nWins}+ '/' +${team.nDraws} +'/' +${team.nLosses}" style="margin-top: -10px;"></p>
+    </div>
+
+    <div style="text-align: center;">
+
+        <h2>Players </h2>
+    </div>
 
 
-    <h2>Players </h2>
-    <div th:each="p : ${team.players}">
-        <p style="display: inline-block">
-        <div style="display: inline-block" th:text="${p.name}+ ', ' +${p.position}"></div> <a
-            th:href="@{/player_details(id=${p.id})}"> Details
-        </a>
-        </p>
-        <p>----------</p>
+    <div style="margin-left: 200px; margin-right:200px; ">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 60%">Player</th>
+                    <th style="width: 20%">Position</th>
+                    <th style="width: 10%">Goals</th>
+                    <th style="width: 10%">Details</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${team.players}">
+
+                    <td th:text="(${p.name})"></td>
+                    <td th:text="(${p.position})"></td>
+                    <td th:text="(${p.goalsScored})"></td>
+
+                    <td>
+                        <button class="btn btn-dark">
+                            <a th:href="@{/player_details(id=${p.id})}" style="text-decoration: none; color:white;">
+                                Details
+                            </a>
+                        </button>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <body>

@@ -9,28 +9,31 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
-    <form th:action="@{/admin/game/create}" method="post" th:object="${gameObj}">
+    <div style="margin-top: 50px;">
+        <form style="width: 400px; margin :0 auto" th:action="@{/admin/game/create}" method="post"
+            th:object="${gameObj}">
 
-        <label for=" teamAId">Team A:</label>
-        <select th:field="*{teamAId}">
-            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
-        </select>
-        <br>
-        <label for="teamBId">Team B:</label>
-        <select th:field="*{teamBId}">
-            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
-        </select>
-        <br>
+            <label for=" teamAId">Team A:</label>
+            <select th:field="*{teamAId}">
+                <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+            </select>
+            <br>
+            <label for="teamBId">Team B:</label>
+            <select th:field="*{teamBId}">
+                <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+            </select>
+            <br>
 
-        <label for="location">Game location:</label>
-        <input name="location" th:field="*{location}"></input>
-        <br>
+            <label for="location">Game location:</label>
+            <input name="location" th:field="*{location}"></input>
+            <br>
 
-        <label for="date">Date:</label>
-        <input name="date" type="datetime-local" th:field="*{date}"></input>
-        <br>
-        <input type="submit" placeholder="Enter"></input>
-    </form>
+            <label for="date">Date:</label>
+            <input name="date" type="datetime-local" th:field="*{date}"></input>
+            <br>
+            <input type="submit" placeholder="Enter"></input>
+        </form>
+    </div>
 
     <body>
 

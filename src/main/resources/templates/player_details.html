@@ -10,20 +10,25 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
 
-    <h1 th:text="'Player '+ ${player.name}"></h1>
-    <p style="display: inline-block">
-    <div style="display: inline-block"></div>
-    <div th:text="'Team: '+ ${player.team.name}">
-    </div>
-    </p>
-    <!-- <a th:href="@{/team_details(id=${t.id})}"> Details </a> -->
+        <h1 th:text="${player.name}"></h1>
 
-
-    <div>
         <p th:text="'Number of goals scored: '+${player.goalsScored}"> </p>
+
+
+        <img th:src="${player.team.imagePath}" />
+        <p th:text="${player.team.name}">
+        </p>
+        <button class="btn btn-dark">
+            <a th:href="@{/team_details(id=${player.team.id})}" style="text-decoration: none; color:white;">
+                Details
+            </a>
+        </button>
+
     </div>
-    <img th:src="${player.team.imagePath}" />
+
+
 
     <body>
 

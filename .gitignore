@@ -26,4 +26,4 @@ hs_err_pid*
 # other extensions to avoid
 *.lst
 *.properties
-**/images
+**/images/teams

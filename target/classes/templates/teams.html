@@ -10,15 +10,54 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
-    <h1> Teams</h1>
-    <div th:each="t : ${teams}">
-        <p style="display: inline-block">
-        <div style="display: inline-block" th:text="${t.name}"></div> : <div
-            th:text="'Wins: ' +${t.nWins}+ ',Draws: ' +${t.nDraws} +',Losses: ' +${t.nLosses}"> </div>
-        </p>
-        <img th:src="${t.imagePath}" />
-        <a th:href="@{/team_details(id=${t.id})}"> Details </a>
-        <p>----------</p>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Teams</h1>
+    </div>
+
+
+    </div>
+
+    <div style="margin-left: 200px; margin-right:200px; ">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 40%">Team</th>
+                    <th style="width: 10%">Points</th>
+                    <th style="width: 10%">Total games</th>
+                    <th style="width: 10%">Wins</th>
+                    <th style="width: 10%">Draws</th>
+                    <th style="width: 10%">Losses</th>
+                    <th style="width: 10%">Details</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="t : ${teams}">
+
+                    <td style="display:flex; ">
+                        <img th:src="${t.imagePath}" style="width: 40px; " class="" />
+                        <p th:text="${t.name}" class="" style="margin-left: 10px; margin-top: 10px;">
+                        </p>
+                    </td>
+                    <td th:text="(${t.nWins*3+ t.nDraws})"></td>
+                    <td th:text="(${t.nWins+t.nLosses+t.nDraws})"></td>
+                    <td th:text="(${t.nWins})"></td>
+                    <td th:text="(${t.nDraws})"></td>
+                    <td th:text="(${t.nLosses})"></td>
+                    <td>
+                        <button class="btn btn-dark">
+                            <a th:href="@{/team_details(id=${t.id})}" style="text-decoration: none; color:white;">
+                                Details
+                            </a>
+                        </button>
+                    </td>
+
+
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <body>

@@ -10,10 +10,14 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
-    <form th:action="@{/admin/player/create}" method="post" th:object="${playerObj}">
+    <div style="margin-top: 50px;"></div>
+    <form style="width: 400px; margin :0 auto" th:action="@{/admin/player/create}" method="post"
+        th:object="${playerObj}">
         <label for="name">Player Name:</label>
         <input name="name" th:field="*{name}"></input>
         <br>
+        <label for="position">Position:</label>
+
         <select th:field="*{position}">
             <option th:value="'Defender'" th:text="Defender">
                 </form:option>
@@ -34,6 +38,7 @@
         </select>
         <input type="submit" placeholder="Enter"></input>
     </form>
+    </div>
 
     <body>
 
