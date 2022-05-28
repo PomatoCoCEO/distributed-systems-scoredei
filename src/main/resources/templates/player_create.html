@@ -2,6 +2,11 @@
 <html>
 
 <head>
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
     <meta http-equiv="refresh" content="20">
     <!-- refreshes content every 20 seconds -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -10,9 +15,13 @@
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Create player</h1>
+    </div>
     <div style="margin-top: 50px;"></div>
-    <form style="width: 400px; margin :0 auto" th:action="@{/admin/player/create}" method="post"
-        th:object="${playerObj}">
+    <form style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px;"
+        th:action="@{/admin/player/create}" method="post" th:object="${playerObj}">
         <label for="name">Player Name:</label>
         <input name="name" th:field="*{name}"></input>
         <br>
@@ -36,7 +45,8 @@
         <select th:field="*{teamId}">
             <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
         </select>
-        <input type="submit" placeholder="Enter"></input>
+        <br>
+        <button type="submit" class="btn btn-dark">Enter</button>
     </form>
     </div>
 

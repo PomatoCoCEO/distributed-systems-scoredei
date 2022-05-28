@@ -18,7 +18,7 @@
         <div style="margin-left: 200px; margin-right:200px; ">
 
             <div class="row"
-                style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px black; border-radius: 20px; padding: 20px;">
+                style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px #212529; border-radius: 20px; padding: 20px;">
 
                 <div class="col-5" style="align-items: center; text-align:center;">
 
@@ -56,16 +56,24 @@
         <div style="text-align: center;">
 
             <h2>Events </h2>
+            <button class="btn btn-dark" th:if="${game.isOngoing}">
+
+                <a th:href="@{/user/event_register(gameid=${game.id})}" style="text-decoration: none; color:white;">
+                    Add event
+                </a>
+            </button>
         </div>
         <!-- missing Css -->
-        <div th:each="e : ${game.events}">
-            <div>
-                <p th:text="${e.type} + ' by '+ ${e.player}">
+        <div class="row" style="margin: 100px;">
 
-                </p>
+            <div th:each="e : ${game.events}" class="col-3">
+                <div
+                    style="border-radius: 20px;border: #212529 solid 2px ;padding: 20px; text-align: center;margin-bottom: 20px;">
+                    <p th:text="${e.type} "> </p>
+                    <p th:if="${e.player!=null}" th:text="'by '+ ${e.player.name}"></p>
+                </div>
+
             </div>
-
-            <p>----------</p>
         </div>
     </div>
 

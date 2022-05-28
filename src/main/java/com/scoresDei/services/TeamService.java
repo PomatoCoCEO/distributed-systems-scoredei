@@ -18,8 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class TeamService {
     @Autowired
     private TeamRepository teamRepository;
-    private static final String TEAM_IMAGE_PATH = "images/teams/";
-    private static final String RESOURCE_STRING = "src/main/resources/static/";
+    private static final String TEAM_IMAGE_PATH = "/images/teams/";
+    private static final String RESOURCE_STRING = "src/main/resources/static";
 
     public void add(Team t) {
         teamRepository.save(t);

@@ -5,18 +5,38 @@
     <meta http-equiv="refresh" content="20">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
 </head>
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
-    <div style="text-align: center; margin-top: 20px;">
+    <div class="row" style="margin: 0px;">
 
-        <h1> Ongoing games</h1>
+        <div style="text-align: center;" class="col-3">
+
+            <a th:href="@{/past_games}" style="text-decoration: none; color: #212529;">
+
+                <h1> Past games</h1>
+            </a>
+        </div>
+        <div style=" text-align: center; " class=" col-6">
+
+            <h1 style="text-decoration: underline;"> Ongoing games</h1>
+        </div>
+        <div style="text-align: center;" class="col-3">
+
+            <a th:href="@{/future_games}" style="text-decoration: none; color: #212529;">
+
+                <h1> Future games</h1>
+            </a>
+        </div>
     </div>
     <div style="margin-left: 200px; margin-right:200px; ">
-
+        <div th:if="${games.size==0}" style="text-align: center;">
+            <h2 style="margin-top: 100px;"> No games to show</h2>
+        </div>
         <div th:each="g : ${games}" class="row"
-            style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px black; border-radius: 20px; padding: 20px;">
+            style="vertical-align: middle; align-items: center; margin-bottom: 100px; margin-top: 100px; border: solid 3px #212529; border-radius: 20px; padding: 20px;">
 
             <div class="col-5" style="align-items: center; text-align:center;">
 

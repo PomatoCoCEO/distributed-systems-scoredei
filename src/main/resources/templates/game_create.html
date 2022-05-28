@@ -2,16 +2,24 @@
 <html>
 
 <head>
-
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
     <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Create game</h1>
+    </div>
     <div style="margin-top: 50px;">
-        <form style="width: 400px; margin :0 auto" th:action="@{/admin/game/create}" method="post"
-            th:object="${gameObj}">
+        <form style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px;"
+            th:action="@{/admin/game/create}" method="post" th:object="${gameObj}">
 
             <label for=" teamAId">Team A:</label>
             <select th:field="*{teamAId}">
@@ -31,7 +39,8 @@
             <label for="date">Date:</label>
             <input name="date" type="datetime-local" th:field="*{date}"></input>
             <br>
-            <input type="submit" placeholder="Enter"></input>
+
+            <button type="submit" class="btn btn-dark">Enter</button>
         </form>
     </div>
 
