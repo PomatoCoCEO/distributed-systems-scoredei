@@ -2,6 +2,8 @@ package com.scoresDei.services;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -23,8 +25,8 @@ public class GameService {
 
     @Autowired
     private TeamRepository teamRepository;
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final String FORMAT_STRING = "yyyy-MM-dd HH:mm:ss";
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(FORMAT_STRING);
 
     public ArrayList<Game> getActiveGames() {
         ArrayList<Game> ans = new ArrayList<>();
@@ -108,7 +110,9 @@ public class GameService {
     public void add(GameDTO gdto) {
         Date date;
         try {
-            date = DATE_FORMAT.parse(gdto.getDate());
+            String s = LocalDateTime.parse(gdto.getDate(), DateTimeFormatter.ISO_DATE_TIME)
+                    .format(DateTimeFormatter.ofPattern(FORMAT_STRING));
+            date = DATE_FORMAT.parse(s);
 
         } catch (ParseException e) {
             // TODO Auto-generated catch block

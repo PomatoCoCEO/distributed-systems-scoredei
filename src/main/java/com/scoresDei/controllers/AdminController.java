@@ -83,7 +83,7 @@ public class AdminController {
     public String createTeam(@ModelAttribute TeamDTO t, @RequestParam("team_image") MultipartFile multipartFile)
             throws IOException {
         this.teamService.addTeamWithPhoto(t, multipartFile);
-        return "redirect:index";
+        return "redirect:/teams";
     }
 
     @PostMapping("/player/create")
@@ -91,13 +91,14 @@ public class AdminController {
         System.out.println("Player: " + p.toString());
 
         this.playerService.addPlayer(p);
-        return "redirect:index";
+        return "redirect:/index";
     }
 
     @PostMapping("/game/create")
     public String createGame(@ModelAttribute GameDTO g) {
         System.out.println("Game: " + g.toString());
         this.gameService.add(g);
-        return "redirect:index";
+        System.out.println("added " + g);
+        return "redirect:/future_games";
     }
 }

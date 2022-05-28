@@ -3,10 +3,12 @@
 
 <head>
     <meta http-equiv="refresh" content="20">
-    <!-- refreshes content every 20 seconds -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 
 <body>
+    <div th:insert="navbar :: navbar"> </div>
     <h1> Future games</h1>
     <div th:each="g : ${games}">
         <div th:text="'Game occurring in '+${g.location}"></div>
@@ -21,7 +23,7 @@
         </p>
         <img th:src="${g.teamB.imagePath}" />
         <a th:href="@{/game_details(id=${g.id})}"> Details </a>
-        <p>Click <a>here </a> to see the game events.</p>
+
         <p>----------</p>
     </div>
 

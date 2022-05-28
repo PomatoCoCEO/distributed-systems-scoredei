@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html>
-<form th:action="@{/game_create}" method="post" th:object="${gameObj}">
 
-    <label for=" teamAId">Team A:</label>
-    <select th:field="*{teamAId}">
-        <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
-    </select>
-    <br>
-    <label for="teamBId">Team B:</label>
-    <select th:field="*{teamBId}">
-        <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
-    </select>
-    <br>
+<head>
 
-    <label for="location">Game location:</label>
-    <input name="location" th:field="*{location}"></input>
-    <br>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
 
-    <label for="date">Date:</label>
-    <input name="date" type="datetime" th:field="*{date}"></input>
-    <br>
-    <input type="submit" placeholder="Enter"></input>
-</form>
+<body>
+    <div th:insert="navbar :: navbar"> </div>
+    <form th:action="@{/admin/game/create}" method="post" th:object="${gameObj}">
+
+        <label for=" teamAId">Team A:</label>
+        <select th:field="*{teamAId}">
+            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+        </select>
+        <br>
+        <label for="teamBId">Team B:</label>
+        <select th:field="*{teamBId}">
+            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+        </select>
+        <br>
+
+        <label for="location">Game location:</label>
+        <input name="location" th:field="*{location}"></input>
+        <br>
+
+        <label for="date">Date:</label>
+        <input name="date" type="datetime-local" th:field="*{date}"></input>
+        <br>
+        <input type="submit" placeholder="Enter"></input>
+    </form>
+
+    <body>
 
 </html>

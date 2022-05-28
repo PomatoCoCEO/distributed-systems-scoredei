@@ -20,7 +20,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("select g from Game g where g.isOngoing=false and g.date < ?1")
     public Iterable<Game> getPastGames(Date currentTime);
 
-    @Query("select g from Game g where g.isOngoing=false and g.date > ?1")
+    @Query("select g from Game g where g.isOngoing=false and g.date > ?1 ")
     public Iterable<Game> getFutureGames(Date currentTime);
 
     @Query("select count(*) from Game g, Player p, Event e where e.game=?1 and e.game = g and e.player=p and e.player=?2 and e.type=5")
