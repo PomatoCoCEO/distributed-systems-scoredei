@@ -12,7 +12,12 @@
     <div th:insert="navbar :: navbar"> </div>
     <div style="margin-top: 200px; text-align: center;">
         <img src="/images/logo.png" />
-
+        <br>
+        <button class="btn btn-dark" style="margin-top: 50px;">
+            <a th:href="@{/populate}" style="text-decoration: none; color:white;">
+                Populate database
+            </a>
+        </button>
     </div>
 
     <body>

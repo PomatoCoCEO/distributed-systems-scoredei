@@ -44,7 +44,26 @@ public class PlayerService {
         playerRepository.save(p);
     }
 
+    public void updatePlayer(PlayerDTO pdto, int id) {
+        Date birthDate;
+        Player p = getPlayerById(id);
+        try {
+            birthDate = DATE_FORMAT.parse(pdto.getBirthDate());
+
+        } catch (ParseException e) {
+
+            birthDate = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+        }
+        p.setName(pdto.getName());
+        p.setPosition(pdto.getPosition());
+        p.setBirthDate(birthDate);
+        p.setTeam(teamRepository.getTeamById(pdto.getTeamId()));
+        playerRepository.save(p);
+    }
+
     public void updatePlayer(Player p) {
+
         playerRepository.save(p);
     }
 
@@ -63,7 +82,7 @@ public class PlayerService {
         return playerRepository.findById(id).get();
     }
 
-    public Player getBestScorer(){
+    public Player getBestScorer() {
         Player bestScorer = playerRepository.bestScorer();
         return bestScorer;
     }

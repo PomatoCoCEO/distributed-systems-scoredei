@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Edit game</h1>
+    </div>
+    <div style="margin-top: 50px;">
+        <form style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px;"
+            th:action="@{/admin/game/edit(id=${gameObj.id})}" method="post" th:object="${gameObj}">
+
+            <label for=" teamAId">Team A:</label>
+            <select th:field="*{teamAId}">
+                <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+            </select>
+            <br>
+            <label for="teamBId">Team B:</label>
+            <select th:field="*{teamBId}">
+                <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+            </select>
+            <br>
+
+            <label for="location">Game location:</label>
+            <input name="location" th:field="*{location}"></input>
+            <br>
+
+            <label for="date">Date:</label>
+            <input name="date" type="datetime-local" th:field="*{date}"></input>
+            <br>
+
+            <button type="submit" class="btn btn-dark">Enter</button>
+        </form>
+    </div>
+
+    <body>
+
+</html>

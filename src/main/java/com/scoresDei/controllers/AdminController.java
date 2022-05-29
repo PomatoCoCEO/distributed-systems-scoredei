@@ -61,12 +61,6 @@ public class AdminController {
         return "index";
     }
 
-    @GetMapping("/populate")
-    public String populate() {
-        populateDB.populateDB();
-        return "populated";
-    }
-
     @GetMapping("/team/create")
     public String createTeam(Model m, Principal principal) {
         if (principal != null) {
@@ -132,5 +126,75 @@ public class AdminController {
         this.gameService.add(g);
         System.out.println("added " + g);
         return "redirect:/future_games";
+    }
+
+    @GetMapping("/team/edit")
+    public String editTeam(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        m.addAttribute("team", teamService.findById(id));
+        return "team_edit";
+    }
+
+    @PostMapping("/team/edit")
+    public String editTeam(@ModelAttribute TeamDTO t, @RequestParam("team_image") MultipartFile multipartFile,
+            @RequestParam(name = "id", required = true) int id,
+            Model m, Principal principal) throws IOException {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        this.teamService.editTeamWithPhoto(t, id, multipartFile);
+        return "redirect:/teams";
+    }
+
+    @GetMapping("/player/edit")
+    public String editPlayer(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        m.addAttribute("pid", id);
+
+        m.addAttribute("player", new PlayerDTO(playerService.getPlayerById(id)));
+        m.addAttribute("allTeams", teamService.getTeams());
+        return "player_edit";
+    }
+
+    @PostMapping("/player/edit")
+    public String editPlayer(@ModelAttribute PlayerDTO p, @RequestParam(name = "id", required = true) int id, Model m,
+            Principal principal) {
+        System.out.println("Player: " + p.toString());
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        this.playerService.updatePlayer(p, id);
+        return "redirect:/player_details?id=" + id;
+    }
+
+    @GetMapping("/game/edit")
+    public String editGame(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        m.addAttribute("gameObj", new GameDTO(gameService.getGameById(id)));
+        m.addAttribute("allTeams", teamService.getTeams());
+
+        return "game_edit";
+    }
+
+    @PostMapping("/game/edit")
+    public String editGame(@ModelAttribute GameDTO g, @RequestParam(name = "id", required = true) int id, Model m,
+            Principal principal) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        this.gameService.updateGame(g, id);
+        return "redirect:/game_details?id=" + id;
     }
 }

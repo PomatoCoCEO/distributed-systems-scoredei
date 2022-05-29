@@ -12,6 +12,7 @@ import com.scoresDei.data.User;
 import com.scoresDei.dto.EventDTO;
 import com.scoresDei.dto.GameDTO;
 import com.scoresDei.dto.PlayerDTO;
+import com.scoresDei.dto.PopulateDTO;
 import com.scoresDei.dto.TeamDTO;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.populate.PopulateDB;
@@ -59,45 +60,39 @@ public class DataController {
         return "index";
     }
 
-    @GetMapping("/populate") // for testing purposes only
-    public String populate(Principal principal, Model m) {
-        if (principal != null) {
-            User u = (User) userService.loadUserByUsername(principal.getName());
-            m.addAttribute("user", u);
-        }
-        populateDB.populateDB();
-        return "populated";
-    }
-
     @GetMapping("/error")
     public String error() {
 
         return "error";
     }
 
-    // @GetMapping("/login")
-    // public String login() {
-    // return "login";
-    // }
+    @GetMapping("/populate")
+    public String populate(Principal principal, Model m) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
 
-    // @PostMapping("/login")
-    // public String loginPost(@RequestParam UserDTO userdto) {
-    // try {
+        m.addAttribute("populate", new PopulateDTO());
 
-    // authenticationManager.authenticate(
-    // new UsernamePasswordAuthenticationToken(userdto.getUsername(),
-    // userdto.getPassword()));
-    // } catch (Exception e) {
-    // return "redirect:/error";
-    // }
-    // final UserDetails userDetails =
-    // userService.loadUserByUsername(userdto.getUsername());
-    // // final String jwt = JwtProcessing.getJwtToken(userDetails);
+        return "populate";
+    }
 
-    // return "login";
-    // }
+    @PostMapping("/populate")
+    public String populate(@ModelAttribute PopulateDTO pop, Principal principal,
+            Model m) {
+        if (principal != null) {
+            User u = (User) userService.loadUserByUsername(principal.getName());
+            m.addAttribute("user", u);
+        }
+        System.out.println("code " + pop.getCode());
+        if (pop.getCode().equals("admin")) {
+            populateDB.populateDB();
+            return "index";
+        }
+        return "redirect:/populate";
 
-    // temporariamente
+    }
 
     @GetMapping("/game_details")
     public String gameDetails(@RequestParam(name = "id", required = true) int id, Model m, Principal principal) {
@@ -157,7 +152,9 @@ public class DataController {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
         }
-        m.addAttribute("player", playerService.getPlayerById(id));
+        var p = playerService.getPlayerById(id);
+        m.addAttribute("player", p);
+
         return "player_details";
     }
 
@@ -167,7 +164,8 @@ public class DataController {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
         }
-        m.addAttribute("player", playerService.getBestScorer());
+        var p = playerService.getBestScorer();
+        m.addAttribute("player", p);
         return "player_details";
     }
 

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+<body>
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Create player</h1>
+    </div>
+    <div style="margin-top: 50px;"></div>
+    <form style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px;"
+        th:action="@{/admin/player/edit(id=${pid})}" method="post" th:object="${player}">
+        <label for="name">Player Name:</label>
+        <input name="name" th:field="*{name}"></input>
+        <br>
+        <label for="position">Position:</label>
+
+        <select th:field="*{position}">
+            <option th:value="'Defender'" th:text="Defender">
+                </form:option>
+            <option th:value="'Midfielder'" th:text="Midfielder">
+                </form:option>
+            <option th:value="'Forward'" th:text="Forward">
+                </form:option>
+            <option th:value="'Goalkeeper'" th:text="Goalkeeper">
+                </form:option>
+        </select>
+        <br>
+        <label for="birthDate">Birth Date:</label>
+        <input name="birthDate" type="date" th:field="*{birthDate}"></input>
+        <br>
+        <label for="teamId">Team:</label>
+        <select th:field="*{teamId}">
+            <option th:each="t : ${allTeams}" th:text="${t.name}" th:value="${t.id}"></option>
+        </select>
+        <br>
+        <div style="" class="row">
+            <div class="col-6">
+
+                <button type="submit" class="btn btn-dark ">Enter</button>
+            </div>
+
+            <div class="col-6" style="text-align: right;">
+
+                <button class="btn btn-dark ">
+                    <a th:href="@{/player_details(id=${pid})}" style="text-decoration: none; color:white;">
+                        Cancel
+                    </a>
+                </button>
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <body>
+
+</html>

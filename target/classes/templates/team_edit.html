@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+
+<body>
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Create team</h1>
+    </div>
+    <div style="margin-top: 50px;">
+
+        <form style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px;"
+            th:action="@{/admin/team/edit(id=${team.id})}" th:object="${team}" method="post"
+            enctype="multipart/form-data">
+            <label for="team_name">Team Name: </label>
+            <input name="team_name" th:field="*{name}"></input>
+            <br>
+            <label for="team_image">Image: </label>
+            <input name="team_image" type="file" accept="image/png, image/jpeg"></input>
+            <br>
+            <div style="" class="row">
+                <div class="col-6">
+
+                    <button type="submit" class="btn btn-dark ">Enter</button>
+                </div>
+
+                <div class="col-6" style="text-align: right;">
+
+                    <button class="btn btn-dark ">
+                        <a th:href="@{/team_details(id=${team.id})}" style="text-decoration: none; color:white;">
+                            Cancel
+                        </a>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+
+
+    </div>
+
+    <body>
+
+</html>

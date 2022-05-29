@@ -128,6 +128,31 @@ public class GameService {
         gameRepository.save(g);
     }
 
+    public void updateGame(GameDTO gdto, int id) {
+        Date date;
+        Game g = getGameById(id);
+        try {
+            String s = LocalDateTime.parse(gdto.getDate(), DateTimeFormatter.ISO_DATE_TIME)
+                    .format(DateTimeFormatter.ofPattern(FORMAT_STRING));
+            date = DATE_FORMAT.parse(s);
+
+        } catch (ParseException e) {
+
+            date = new GregorianCalendar(1980, 12, 12).getTime();
+            e.printStackTrace();
+        }
+        if (gdto.getTeamAId() == gdto.getTeamBId()) {
+
+            return;
+        }
+
+        g.setDate(date);
+        g.setLocation(gdto.getLocation());
+        g.setTeamA(teamRepository.getTeamById(gdto.getTeamAId()));
+        g.setTeamB(teamRepository.getTeamById(gdto.getTeamBId()));
+        gameRepository.save(g);
+    }
+
     public boolean isExpelled(Game g, Player p) {
         return gameRepository.redCards(g, p) >= 1 || gameRepository.yellowCards(g, p) > 2;
     }

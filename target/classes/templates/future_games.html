@@ -5,6 +5,11 @@
     <meta http-equiv="refresh" content="20">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        img {
+            width: 150px;
+        }
+    </style>
 </head>
 
 <body>
@@ -47,6 +52,8 @@
                 <h2>Vs</h2>
                 <p th:text="${g.goalsA}+'-'+${g.goalsB}"></p>
                 <p th:text="${g.location}"></p>
+                <p th:text=" ${#dates.format(g.date, 'dd-MM-yyyy HH:mm')}"></p>
+
                 <button class="btn btn-dark">
 
                     <a th:href="@{/game_details(id=${g.id})}" style="text-decoration: none; color:white;"> Details

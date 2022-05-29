@@ -1,7 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <div>
-        Click here to populate the database: 
-        <a href="http::/localhost:8080/populate">Populate scoreDEI database</a>
+
+<head>
+    <style>
+        label {
+            margin-bottom: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+
+
+<body>
+    <div th:insert="navbar :: navbar"> </div>
+    <div style="text-align: center; margin-top: 20px;">
+
+        <h1> Populate scoreDei database</h1>
     </div>
+    <div style="margin-top: 50px;">
+
+        <form
+            style="width: 400px; margin :0 auto; border: solid 3px #212529; border-radius: 20px; padding: 20px; text-align: center;"
+            th:action="@{/populate}" method="post" th:object="${populate}">
+            <label for="code">Admin code: </label>
+            <input name="code" th:field="*{code}"></input>
+
+            <button type="submit" class="btn btn-dark">Populate</button>
+        </form>
+
+    </div>
+
+    <body>
+
 </html>

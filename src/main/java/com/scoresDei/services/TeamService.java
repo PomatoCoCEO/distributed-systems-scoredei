@@ -41,6 +41,25 @@ public class TeamService {
         }
     }
 
+    public void editTeamWithPhoto(TeamDTO t, int id, MultipartFile multipartFile) {
+        try {
+            Team aid = findById(id);
+            if (!multipartFile.getOriginalFilename().equals("")) {
+
+                String[] spStr = multipartFile.getOriginalFilename().split("\\.");
+                System.out.println("Array of split: " + Arrays.toString(spStr));
+                FileUploadUtil.saveFile(RESOURCE_STRING + TEAM_IMAGE_PATH,
+                        String.valueOf(aid.getId()) + "." + spStr[spStr.length - 1],
+                        multipartFile);
+                aid.setImagePath(TEAM_IMAGE_PATH + aid.getId() + "." + spStr[spStr.length - 1]);
+            }
+            aid.setName(t.getName());
+            teamRepository.save(aid);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Team findById(int id) {
         var ans = teamRepository.findById(id);
         return ans.get();

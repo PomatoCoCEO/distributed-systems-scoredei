@@ -1,5 +1,6 @@
 package com.scoresDei.dto;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 // import java.sql.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.scoresDei.data.Game;
 import com.scoresDei.data.Team;
 
 public class GameDTO {
@@ -20,9 +22,24 @@ public class GameDTO {
     private int goalsA;
     private int goalsB;
 
-    // ! use teamDTO ?
     private int teamAId;
     private int teamBId;
+
+    private static final String FORMAT_STRING = "yyyy-MM-dd'T'HH:mm";
+    private static final SimpleDateFormat DATE_HOUR_FORMAT = new SimpleDateFormat(FORMAT_STRING);
+
+    public GameDTO() {
+    }
+
+    public GameDTO(Game g) {
+        this.id = g.getId();
+        this.location = g.getLocation();
+        this.date = DATE_HOUR_FORMAT.format(g.getDate());
+        this.goalsA = g.getGoalsA();
+        this.goalsB = g.getGoalsB();
+        this.teamAId = g.getTeamA().getId();
+        this.teamBId = g.getTeamB().getId();
+    }
 
     public String getLocation() {
         return location;
