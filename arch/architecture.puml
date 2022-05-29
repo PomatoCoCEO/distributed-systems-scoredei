@@ -1,0 +1,42 @@
+@startuml
+
+component server
+database DB
+
+folder controllers {
+    card DataController [
+        /login
+        ----
+        /logout
+        ----
+        /index
+        ----
+        /game/details
+        ----
+        /games
+        ----
+        /future_games
+        ----
+        /past_games
+        ----
+        /team/details
+        ----
+        /teams
+        ----
+        /best_scorer
+    ]
+    card UserController [
+        /event_register
+    ]
+    card AdminController [
+        /populate
+        ----
+        /team/create
+        
+    ]
+}
+
+
+
+
+@enduml
