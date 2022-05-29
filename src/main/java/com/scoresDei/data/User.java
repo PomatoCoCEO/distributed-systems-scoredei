@@ -111,13 +111,10 @@ public class User implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> roles = new ArrayList<>();
         if (isAdmin) {
-            System.out.println("User is administrator");
             roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
-            System.out.println("User is not administrator");
             roles.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        System.out.println("User authorities: " + roles);
         return roles;
         // TODO Auto-generated method stub
         // return null;
