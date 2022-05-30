@@ -65,7 +65,12 @@ public class DataController {
     }
 
     @GetMapping("/error")
-    public String error(Model m, @RequestParam String message) {
+    public String error(Model m, @RequestParam(value = "message", required = false) String message) {
+        System.out.println("Message: " + message);
+        if (message != null)
+            m.addAttribute("message", message);
+        else
+            m.addAttribute("No message available");
         return "error";
     }
 
@@ -102,6 +107,10 @@ public class DataController {
         if (principal != null) {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
+        }
+        var g = gameService.getGameById(id);
+        if (g == null) {
+            m.addAttribute("message", "Game not found");
         }
         m.addAttribute("game", gameService.getGameById(id));
         return "game_details";
@@ -146,10 +155,14 @@ public class DataController {
             m.addAttribute("user", u);
         }
         try {
-
-            m.addAttribute("team", teamService.findById(id));
+            var t = teamService.findById(id);
+            if (t == null) {
+                throw new Exception("Team not found");
+            }
+            m.addAttribute("team", t);
         } catch (Exception e) {
-            return "redirect:/error?message=" + e.getMessage();
+            m.addAttribute("message", e.getMessage());
+            return "error";
         }
         return "team_details";
     }
@@ -162,9 +175,13 @@ public class DataController {
         }
         try {
             var p = playerService.getPlayerById(id);
+            if (p == null) {
+                throw new Exception("Player not found");
+            }
             m.addAttribute("player", p);
         } catch (Exception e) {
-            return "redirect:/error?message=" + e.getMessage();
+            m.addAttribute("message", e.getMessage());
+            return "error";
         }
 
         return "player_details";
@@ -177,7 +194,13 @@ public class DataController {
             m.addAttribute("user", u);
         }
         var p = playerService.getBestScorer();
-        m.addAttribute("player", p);
+        System.out.println("best scorer: " + p);
+        if (p == null) {
+            m.addAttribute("message", "No players found");
+            return "error";
+        } else
+            m.addAttribute("player", p);
+
         return "player_details";
     }
 
