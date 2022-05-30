@@ -13,8 +13,49 @@
     <div style="text-align: center; margin-top: 20px;">
 
         <h1> Teams</h1>
+        <p>Order by:</p>
     </div>
+    <div style="margin-left: 200px; margin-right:200px; vertical-align: middle; ">
+        <div class="row" style="text-align:center ; margin-bottom:30px;">
 
+            <div class="col ">
+                <button class="btn btn-dark">
+                    <a th:href="@{/teams}" style="text-decoration: none; color:white;">
+                        Points
+                    </a>
+                </button>
+            </div>
+            <div class="col ">
+                <button class="btn btn-dark">
+                    <a th:href="@{/teams(orderby=wins)}" style="text-decoration: none; color:white;">
+                        Wins
+                    </a>
+                </button>
+            </div>
+            <div class="col ">
+                <button class="btn btn-dark">
+                    <a th:href="@{/teams(orderby=losses)}" style="text-decoration: none; color:white;">
+                        Losses
+                    </a>
+                </button>
+            </div>
+            <div class="col ">
+                <button class="btn btn-dark">
+                    <a th:href="@{/teams(orderby=draws)}" style="text-decoration: none; color:white;">
+                        Draws
+                    </a>
+                </button>
+            </div>
+            <div class="col ">
+                <button class="btn btn-dark">
+                    <a th:href="@{/teams(orderby=no_games)}" style="text-decoration: none; color:white;">
+                        Games
+                    </a>
+                </button>
+            </div>
+        </div>
+
+    </div>
 
     </div>
 
