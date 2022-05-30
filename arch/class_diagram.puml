@@ -10,6 +10,7 @@ class User {
 }
 class Player {
     int id
+    String name
     String position
     Date birthDate
     int goalsScored
@@ -34,6 +35,8 @@ class Game {
     Date date
     int goalsA
     int goalsB
+    bool isOngoing
+    bool isInterrupted
 }
 
 User "events" *-- "user" Event
