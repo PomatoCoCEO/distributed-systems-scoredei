@@ -1,17 +1,35 @@
-@startuml
+@startuml architecture
 
-component server
-database DB
+component server as "Server"
+database DB [
+    <b>DB</b>
+    ----
+    score_user
+    ----
+    team
+    ----
+    game
+    ----
+    player
+    ----
+    event
+    ----
+    team_games
+]
 
 folder controllers {
     card DataController [
+        <b>DataController</b>
+        ----
+        /populate
+        ----
         /login
         ----
         /logout
         ----
         /index
         ----
-        /game/details
+        /game_details
         ----
         /games
         ----
@@ -19,24 +37,68 @@ folder controllers {
         ----
         /past_games
         ----
-        /team/details
+        /team_details
         ----
         /teams
         ----
         /best_scorer
+        ----
+        /player_details
+        ----
+        /error
     ]
-    card UserController [
-        /event_register
-    ]
+
     card AdminController [
-        /populate
+        <b>AdminController</b>
+        ----
+        /register  
         ----
         /team/create
-        
+        ----
+        /team/edit
+        ----
+        /game/create
+        ----
+        /game/edit
+        ----
+        /player/create
+        ----
+        /player/edit
+    ]
+
+    card UserController [
+        <b>UserController</b>
+        ----
+        /event_register
     ]
 }
 
+card Auth [
+    Auth Layer
+]
 
+folder static {
+    card "styles.css"
+    card "teams/images/*.png"
+}
 
+interface SportsAPI
+
+card Browser
+
+card Servlets
+server <-down-> controllers : Http Requests/\nRetrieved HTML
+server -right-> DB: PostgreSQL
+DB -left-> server : Data
+
+server -down-> Auth : Auth Info
+server -down-> Browser: HTTP Responses
+Auth -up-> server: Auth Attempts
+server -up-> SportsAPI: API Calls\n(HTTP)
+SportsAPI -down-> server: Team &\nPlayer Info
+Browser -up-> Auth: HTTP requests
+controllers <-up-> static: static data fetching/retrieval
+controllers -right-> Servlets: data
+Servlets --> controllers: formatted HTML
 
 @enduml

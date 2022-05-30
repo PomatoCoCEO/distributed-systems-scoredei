@@ -8,16 +8,20 @@ import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Dotenv {
-    private static String dotenv_location;
-    private static Map<String, String> map;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Service;
 
-    public Dotenv(String filename) {
+@Service
+public class Dotenv {
+    private final String DOTENV_LOCATION = "src/main/java/com/scoresDei/.env";
+    private Map<String, String> map;
+
+    public Dotenv() {
         map = new TreeMap<String, String>();
         try (
                 BufferedReader br = new BufferedReader(
                         new FileReader(
-                                new File(filename)))) {
+                                new File(DOTENV_LOCATION)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] sp = line.split("=", 2);
@@ -40,4 +44,5 @@ public class Dotenv {
         } else
             return value;
     }
+
 }

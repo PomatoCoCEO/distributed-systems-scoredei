@@ -1,4 +1,4 @@
-@startuml
+@startuml class_diagram
 class User {
     int id
     String username
@@ -6,20 +6,26 @@ class User {
     String telephone
     String email
     bool isAdmin 
+    Collection<GrantedAuthority> getAuthorities()
 }
 class Player {
     int id
     String position
     Date birthDate
+    int goalsScored
 }
+
 class Team {
     int id
     String name
     String imagePath
+    int nWinds
+    int nLosses
+    int nDraws
 }
 class Event {
     int id
-    String type
+    enum EventType type
     Date timestamp
 } 
 class Game {
@@ -32,10 +38,9 @@ class Game {
 
 User "events" *-- "user" Event
 Game "events" --* "game" Event
-Player "events" o-* "player" Event
+Player "events" --* "player" Event
 Team "players" --* "team" Player
-
-Team "2\n  games" --* "teams" Game
+Team "games" --* "team(A,B)" Game
 
 
 @enduml

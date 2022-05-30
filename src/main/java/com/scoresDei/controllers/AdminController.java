@@ -57,7 +57,14 @@ public class AdminController {
             m.addAttribute("user", user);
         }
         System.out.println("User: " + u.toString());
-        this.userService.addUser(u);
+        try {
+
+            this.userService.addUser(u);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+            m.addAttribute("error", e.getMessage());
+            return "error";
+        }
         return "index";
     }
 

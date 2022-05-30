@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.scoresDei.data.User;
 import com.scoresDei.dto.UserDTO;
 import com.scoresDei.repositories.UserRepository;
+import com.scoresDei.utils.Dotenv;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Dotenv dotenv;
 
     public ArrayList<User> getAllUsers() {
         var users = userRepository.findAll();
@@ -39,23 +43,20 @@ public class UserService implements UserDetailsService {
 
         System.out.println(u);
 
-        if (u.getAdminCode() != null && !u.getAdminCode().equals("admin")) {
-            return;
+        if (u.getAdminCode() != null && !u.getAdminCode().equals(dotenv.get("ADMIN_CODE"))) {
+            throw new IllegalArgumentException("Invalid admin code");
         }
 
         if (userRepository.existsUserByEmail(u.getEmail())) {
             // erro
-
-            return;
+            throw new IllegalArgumentException("E-mail not unique");
         }
 
         if (userRepository.existsUserByUsername(u.getUsername())) {
-            // erro
-            return;
+            throw new IllegalArgumentException("Username not unique");
         }
         if (userRepository.existsUserByTelephone(u.getTelephone())) {
-            // erro
-            return;
+            throw new IllegalArgumentException("Telephone number not unique");
         }
 
         // hash pw

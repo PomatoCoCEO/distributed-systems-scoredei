@@ -64,7 +64,8 @@ public class PopulateDB {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     private static final int NO_ACTIVE_GAMES = 10;
     private static final int NO_PAST_GAMES = 100;
-    private Dotenv dotenv = new Dotenv("src/main/java/com/scoresDei/.env");
+    @Autowired
+    private Dotenv dotenv;
 
     private void populateTeams() {
         // Format query for preventing encoding problems

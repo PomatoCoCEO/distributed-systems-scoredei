@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.security.Principal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 
 import com.scoresDei.data.Game;
 import com.scoresDei.data.Player;
@@ -21,6 +22,7 @@ import com.scoresDei.services.GameService;
 import com.scoresDei.services.PlayerService;
 import com.scoresDei.services.TeamService;
 import com.scoresDei.services.UserService;
+import com.scoresDei.utils.Dotenv;
 import com.scoresDei.utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,8 @@ public class DataController {
     UserService userService;
     @Autowired
     PopulateDB populateDB;
+    @Autowired
+    Dotenv dotenv;
 
     @GetMapping({ "/", "/index" })
     public String index(Principal principal, Model m) {
@@ -61,8 +65,7 @@ public class DataController {
     }
 
     @GetMapping("/error")
-    public String error() {
-
+    public String error(Model m, @RequestParam String message) {
         return "error";
     }
 
@@ -86,7 +89,7 @@ public class DataController {
             m.addAttribute("user", u);
         }
         System.out.println("code " + pop.getCode());
-        if (pop.getCode().equals("admin")) {
+        if (pop.getCode().equals(dotenv.get("POPULATE_CODE"))) {
             populateDB.populateDB();
             return "index";
         }
@@ -142,7 +145,12 @@ public class DataController {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
         }
-        m.addAttribute("team", teamService.findById(id));
+        try {
+
+            m.addAttribute("team", teamService.findById(id));
+        } catch (Exception e) {
+            return "redirect:/error?message=" + e.getMessage();
+        }
         return "team_details";
     }
 
@@ -152,8 +160,12 @@ public class DataController {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
         }
-        var p = playerService.getPlayerById(id);
-        m.addAttribute("player", p);
+        try {
+            var p = playerService.getPlayerById(id);
+            m.addAttribute("player", p);
+        } catch (Exception e) {
+            return "redirect:/error?message=" + e.getMessage();
+        }
 
         return "player_details";
     }
@@ -170,12 +182,32 @@ public class DataController {
     }
 
     @GetMapping("/teams")
-    public String teams(Model m, Principal principal) {
+    public String teams(Model m, Principal principal,
+            @RequestParam(name = "orderby", required = false) String sortString) {
         if (principal != null) {
             User u = (User) userService.loadUserByUsername(principal.getName());
             m.addAttribute("user", u);
         }
-        m.addAttribute("teams", teamService.getSortedTeams());
+        if (sortString == null) {
+            m.addAttribute("teams", teamService.getSortedTeams());
+        } else {
+            var teams = teamService.getTeams();
+            switch (sortString.toLowerCase()) {
+                case "wins":
+                    Collections.sort(teams, Team.BY_WINS);
+                    break;
+                case "losses":
+                    Collections.sort(teams, Team.BY_LOSSES);
+                    break;
+                case "draws":
+                    Collections.sort(teams, Team.BY_DRAWS);
+                    break;
+                case "no_games":
+                    Collections.sort(teams, (t1, t2) -> teamService.getTotalGames(t2) - teamService.getTotalGames(t1));
+                    break;
+            }
+            m.addAttribute("teams", teams);
+        }
         return "teams";
     }
 

@@ -1,6 +1,7 @@
 package com.scoresDei.data;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class Team implements Comparable<Team> {
@@ -27,6 +29,13 @@ public class Team implements Comparable<Team> {
 
     @OneToMany(mappedBy = "team")
     private List<Player> players;
+
+    @Transient
+    public static final Comparator<Team> BY_WINS = Comparator.comparing(Team::getnWins).reversed();
+    @Transient
+    public static final Comparator<Team> BY_LOSSES = Comparator.comparing(Team::getnLosses).reversed();
+    @Transient
+    public static final Comparator<Team> BY_DRAWS = Comparator.comparing(Team::getnDraws).reversed();
 
     public Team(String name, String imagePath, int nw, int nl, int nd) {
         this.name = name;
@@ -128,6 +137,8 @@ public class Team implements Comparable<Team> {
     public void setnDraws(int nDraws) {
         this.nDraws = nDraws;
     }
+
+    
 
     @Override
     public int compareTo(Team t) {

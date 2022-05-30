@@ -120,8 +120,10 @@ public class GameService {
             e.printStackTrace();
         }
         if (gdto.getTeamAId() == gdto.getTeamBId()) {
-            // TODO: return some kind of error
-            return;
+            throw new IllegalArgumentException("Team A and Team B cannot be the same");
+        }
+        if (date.before(new Date())) {
+            throw new IllegalArgumentException("Cannot create a game in the past");
         }
         Game g = new Game(gdto.getLocation(), date, teamRepository.getTeamById(gdto.getTeamAId()),
                 teamRepository.getTeamById(gdto.getTeamBId()));
@@ -131,6 +133,9 @@ public class GameService {
     public void updateGame(GameDTO gdto, int id) {
         Date date;
         Game g = getGameById(id);
+        if (g.getDate().before(new Date()) || g.isOngoing()) {
+            throw new IllegalArgumentException("Cannot update past or ongoing games");
+        }
         try {
             String s = LocalDateTime.parse(gdto.getDate(), DateTimeFormatter.ISO_DATE_TIME)
                     .format(DateTimeFormatter.ofPattern(FORMAT_STRING));
@@ -142,8 +147,10 @@ public class GameService {
             e.printStackTrace();
         }
         if (gdto.getTeamAId() == gdto.getTeamBId()) {
-
-            return;
+            throw new IllegalArgumentException("Team A and Team B cannot be the same");
+        }
+        if (date.before(new Date())) {
+            throw new IllegalArgumentException("Cannot change a game to the past");
         }
 
         g.setDate(date);
