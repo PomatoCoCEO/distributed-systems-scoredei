@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Dotenv {
-    private final String DOTENV_LOCATION = "src/main/java/com/scoresDei/.env";
+    private final String DOTENV_LOCATION = "classes/com/scoresDei/.env";
     private Map<String, String> map;
 
     public Dotenv() {

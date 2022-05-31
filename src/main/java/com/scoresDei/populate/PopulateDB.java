@@ -101,7 +101,7 @@ public class PopulateDB {
                     BufferedImage im = ImageIO.read(url);
 
                     ImageIO.write(im, format,
-                            new File("src/main/resources/static/images/teams/" + t.getId() + "." + format));
+                            new File("classes/static/images/teams/" + t.getId() + "." + format));
                     t.setImagePath("images/teams/" + t.getId() + "." + format);
                     teamService.updateTeam(t);
                 } catch (IOException io) {

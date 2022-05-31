@@ -28,7 +28,9 @@ public class PlayerService {
         Date birthDate;
         try {
             birthDate = DATE_FORMAT.parse(pdto.getBirthDate());
-
+            if (birthDate.after(new Date())) {
+                throw new IllegalArgumentException("Birth date can't be in the future");
+            }
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             birthDate = new GregorianCalendar(1980, 12, 12).getTime();
@@ -49,7 +51,8 @@ public class PlayerService {
         Player p = getPlayerById(id);
         try {
             birthDate = DATE_FORMAT.parse(pdto.getBirthDate());
-
+            if (birthDate.after(new Date()))
+                throw new IllegalArgumentException("Birth date can't be in the future");
         } catch (ParseException e) {
 
             birthDate = new GregorianCalendar(1980, 12, 12).getTime();
