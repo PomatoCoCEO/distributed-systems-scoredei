@@ -1,5 +1,8 @@
 # scoreDEI
 
+A website that uses a sports API to retrieve live sports results, based on the Spring framework and PostgreSQL.
+This was the project for the Distributed Systems course, in the 3rd year of the Bachelor's degree in Informatics Engineering from the University of Coimbra.
+
 To run:
 
     - Have a postgreSQL database running
